@@ -1,0 +1,35 @@
+/*
+Theme Name: OIPA
+*/
+
+/* main elements */
+.wpcf7-not-valid-tip{
+    color: #000000;
+    left: -300px !important;
+    top: 10px !important;
+}
+.subscribe, .unsubscribe{
+    width: 129px;
+}
+.social-network {
+    float: left;
+    margin: 0 -3px 0 0;
+}
+.social-network li {
+    float: left;
+    list-style: none outside none;
+    margin: 0 0 0 10px;
+}
+.linkedin{
+    margin: 0 1px 0 11px !important; 
+}
+.facebook{
+    margin: 0 9px 0 11px !important; 
+}
+.wpcf7-form{
+    margin: 0 !important;
+}
+.wpcf7-form p{
+    margin: 0 !important;
+    padding: 0 !important;
+}
