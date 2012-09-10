@@ -1,4 +1,7 @@
 <?php
+/*
+Template Name: Project details
+*/
 $back_url = $_REQUEST['back_url'];
 if(empty($back_url) && !empty($_SERVER['HTTP_REFERER'])) $back_url = $_SERVER['HTTP_REFERER'];
 
