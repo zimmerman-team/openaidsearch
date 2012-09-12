@@ -114,8 +114,12 @@ Template Name: Explore Template
 						}
 						if(!empty($_REQUEST['countries'])) {
 							$tmp = explode('|', $_REQUEST['countries']);
+							$countries = "";
+							$cSep = "";
 							foreach($tmp AS $idx => &$s) {
 								echo '<li><a href="#">'.$_COUNTRY_ISO_MAP[$s].'</a>';
+								$countries .= $cSep . $s;
+								$cSep = '|';
 								unset($tmp[$idx]);
 								break;
 							}
@@ -126,6 +130,8 @@ Template Name: Explore Template
 							if(!empty($tmp)) {
 								foreach($tmp AS $idx => &$s) {
 									echo '<li><a href="#">'.$_COUNTRY_ISO_MAP[$s].'</a></li>';
+									$countries .= $cSep . $s;
+									$cSep = '|';
 								}
 							}
 							
@@ -144,6 +150,7 @@ Template Name: Explore Template
 											<li class="remove"><a href="#" id="countries">Clear</a></li>';
 								echo "</ul>
 									</div></li>";
+								$countries = $srch_countries;
 							}
 						}
 					?>

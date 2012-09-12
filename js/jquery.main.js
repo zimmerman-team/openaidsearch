@@ -1362,6 +1362,8 @@ function applyResults(meta, objects) {
 			
 	}
 	
+	jQuery('.title>mark').html(total_count);
+	
 	jQuery('#info-table > tbody').empty();
 	jQuery('#info-table > tbody').html(html);
 }
