@@ -311,9 +311,9 @@ Template Name: Explore Template
 					});
 					if (countries) map.setCenter(polygon.getBounds().getCenter());
 					polygon.setMap(map);
-					//google.maps.event.addListener(polygon, 'click', showInfo);
-					//infowindow = new google.maps.InfoWindow();
-					//google.maps.event.addListener(infowindow, 'closeclick', resetColor);
+					google.maps.event.addListener(polygon, 'click', showInfo);
+					infowindow = new google.maps.InfoWindow();
+					google.maps.event.addListener(infowindow, 'closeclick', resetColor);
 				}
 				
 				function showInfo(event){
@@ -321,7 +321,7 @@ Template Name: Explore Template
 						currentPolygon.setOptions({fillColor: "#F96B15"});
 					}
 					this.setOptions({fillColor: "#2D6A98"});
-					var keyword = $('#s').val();
+					var keyword = jQuery('#search-field').val();
 					
 					if(keyword) {
 						keyword = encodeURI(keyword);
@@ -334,9 +334,9 @@ Template Name: Explore Template
 					"<dl>" +
 					"<dt>Total Activities:</dt>" +
 					"<dd>" +
-						"<a href=?s=" + keyword + "&countries=" + this.iso2 + ">"+this.total_cnt+" project(s)</a>" +
+						"<a href='<?php echo get_option('home'); ?>/?page_id=16&query=" + keyword + "&countries=" + this.iso2 + "'>"+this.total_cnt+" project(s)</a>" +
 					"</dd>" +
-						"<a href=?s=" + keyword + "&countries=" + this.iso2 + ">show all activities for this country</a>" +
+						"<a href='<?php echo get_option('home'); ?>/?page_id=16&query=" + keyword + "&countries=" + this.iso2 + "'>show all activities for this country</a>" +
 					"</dl>";
 					
 					infowindow.setContent(contentString);

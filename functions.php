@@ -1,11 +1,10 @@
 <?php
-
 include( TEMPLATEPATH.'/constants.php' );
 include( TEMPLATEPATH.'/widgets.php' );
 if(file_exists(TEMPLATEPATH . '/countries.php')) {
 	$fmdate = filemtime(TEMPLATEPATH . '/countries.php');
 	if((time() - $fmdate)>$_RELAOD_FILTERS_TIMEOUT) {
-		//wp_generate_constants();
+		wp_generate_constants();
 	}
 	include_once( TEMPLATEPATH . '/countries.php' );
 	asort($_COUNTRY_ISO_MAP);
@@ -127,28 +126,41 @@ foreach ( $filters as $filter ) {
 
 function wp_generate_constants() {
 	set_time_limit(0);
-	$activities_url = SEARCH_URL . "countries/?format=json&limit=0";
+	$limit=50;
+	$activities_url = SEARCH_URL . "countries/?format=json&limit={$limit}&statistics__total_activities__gte=0";
 	$content = file_get_contents($activities_url);
 	$result = json_decode($content);
 	$meta = $result->meta;
 	$count = $meta->total_count;
+	$objects = $result->objects;
+	$data = objectToArray($objects);
 	
-	$start=0;
-	$limit=50;
+	$start=$limit;
 	$countries = array();
+	$countries_activities = array();
 	$sectors = array();
 	$regions = array();
 	$organisations = array();
+	if(!empty($data)) {
+		foreach($data AS $a) {
+			if(intval($a['statistics']['total_activities'])<=0) continue
+			$countries[$a['iso']] = $a['name'];
+			$countries_activities[$a['iso']] = $a['statistics']['total_activities'];
+		}
+	}
 	while($start<$count) {
-		$activities_url = SEARCH_URL . "countries/?format=json&offset={$start}&limit={$limit}";
+		$activities_url = SEARCH_URL . "countries/?format=json&offset={$start}&limit={$limit}&statistics__total_activities__gte=0";
 		
 		$content = file_get_contents($activities_url);
 		$result = json_decode($content);
 		$objects = $result->objects;
 		$data = objectToArray($objects);
-		
-		foreach($data AS $a) {
-			$countries[$a['iso']] = $a['name'];
+		if(!empty($data)) {
+			foreach($data AS $a) {
+				if(intval($a['statistics']['total_activities'])<=0) continue
+				$countries[$a['iso']] = $a['name'];
+				$countries_activities[$a['iso']] = $a['statistics']['total_activities'];
+			}
 		}
 		
 		$start+=$limit;
@@ -166,29 +178,50 @@ $_COUNTRY_ISO_MAP = array(
 		
 	}
 	$to_write .= ');
+	
+$_COUNTRY_ACTIVITY_COUNT = array(
+';
+	if(!empty($countries_activities)) {
+		
+		foreach($countries_activities AS $key=>$value) {
+			$value = intval($value);
+			$to_write .= "'{$key}' => '{$value}',\n";
+		}
+		
+	}
+
+$to_write .= ');
 ?>';
 	$fp = fopen(TEMPLATEPATH . '/countries.php', 'w+');
 	fwrite($fp, $to_write);
 	fclose($fp);
 	
 	
-$activities_url = SEARCH_URL . "sectors/?format=json&limit=0";
+$activities_url = SEARCH_URL . "sectors/?format=json&limit={$limit}";
 $content = file_get_contents($activities_url);
 $result = json_decode($content);
 $meta = $result->meta;
 $count = $meta->total_count;
+$objects = $result->objects;
+$data = objectToArray($objects);
+if(!empty($data)) {
+	foreach($data AS $a) {
+		$sectors[$a['code']] = trim($a['name']);
+	}
+}
 
-$start=0;
-$limit=50;
+$start=$limit;
+
 while($start<$count) {
 	$activities_url = SEARCH_URL . "sectors/?format=json&offset={$start}&limit={$limit}";
 	$content = file_get_contents($activities_url);
 	$result = json_decode($content);
 	$objects = $result->objects;
 	$data = objectToArray($objects);
-	
-	foreach($data AS $a) {
-		$sectors[$a['code']] = $a['name'];
+	if(!empty($data)) {
+		foreach($data AS $a) {
+			$sectors[$a['code']] = trim($a['name']);
+		}
 	}
 	
 	$start+=$limit;
@@ -213,14 +246,19 @@ $_SECTOR_CHOICES = array(
 	fclose($fp);
 
 	
-$activities_url = SEARCH_URL . "regions/?format=json&limit=0";
+$activities_url = SEARCH_URL . "regions/?format=json&limit={$limit}";
 $content = file_get_contents($activities_url);
 $result = json_decode($content);
 $meta = $result->meta;
 $count = $meta->total_count;
-
-$start=0;
-$limit=50;
+$objects = $result->objects;
+$data = objectToArray($objects);
+if(!empty($data)) {
+	foreach($data AS $a) {
+		$regions[$a['code']] = trim($a['name']);
+	}
+}
+$start=$limit;
 
 while($start<$count) {
 	$activities_url = SEARCH_URL . "regions/?format=json&offset={$start}&limit={$limit}";
@@ -228,9 +266,10 @@ while($start<$count) {
 	$result = json_decode($content);
 	$objects = $result->objects;
 	$data = objectToArray($objects);
-	
-	foreach($data AS $a) {
-		$regions[$a['code']] = $a['name'];
+	if(!empty($data)) {
+		foreach($data AS $a) {
+			$regions[$a['code']] = trim($a['name']);
+		}
 	}
 	
 	$start+=$limit;
@@ -255,14 +294,20 @@ $_REGION_CHOICES = array(
 	fclose($fp);
 	
 	
-$activities_url = SEARCH_URL . "organisations/?format=json&limit=0";
+$activities_url = SEARCH_URL . "organisations/?format=json&limit={$limit}";
 $content = file_get_contents($activities_url);
 $result = json_decode($content);
 $meta = $result->meta;
 $count = $meta->total_count;
+$objects = $result->objects;
+$data = objectToArray($objects);
+if(!empty($data)) {
+	foreach($data AS $a) {
+		$organisations[$a['ref']] = trim($a['org_name']);
+	}
+}
 
-$start=0;
-$limit=500;
+$start=$limit;
 
 while($start<$count) {
 	$activities_url = SEARCH_URL . "organisations/?format=json&offset={$start}&limit={$limit}";
@@ -270,9 +315,10 @@ while($start<$count) {
 	$result = json_decode($content);
 	$objects = $result->objects;
 	$data = objectToArray($objects);
-	
-	foreach($data AS $a) {
-		$organisations[$a['ref']] = $a['org_name'];
+	if(!empty($data)) {
+		foreach($data AS $a) {
+			$organisations[$a['ref']] = trim($a['org_name']);
+		}
 	}
 	
 	$start+=$limit;

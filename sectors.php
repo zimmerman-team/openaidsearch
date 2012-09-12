@@ -151,18 +151,14 @@ $_SECTOR_CHOICES = array(
 '32210' => 'Mineral/mining policy and administrative management',
 '32162' => 'Forest industries',
 '99810' => 'Sectores no especificados',
-'92030' => '
-              Support to local and regional NGOs
-            ',
+'92030' => 'Support to local and regional NGOs',
 '23064' => 'Nuclear power plants',
 'Aim4' => 'Right to be heard',
 '43050' => 'Non-agricultural alternative development',
 '33140' => 'Multilateral trade negotiations',
 'Land Right' => 'Land Rights',
 '21020' => 'Road transport',
-'15162' => '
-              Human rights
-            ',
+'15162' => 'Human rights',
 'Aim2' => 'Right to essential services',
 'Aim3' => 'Right to life and security',
 'Aim5' => 'Right to equity',
@@ -369,9 +365,7 @@ $_SECTOR_CHOICES = array(
 'LR' => 'Other Renewable Energy',
 'FB' => 'Non-compulsory health finance',
 '0020' => 'Analysis of economic growth',
-'92020' => '
-              Support to international NGOs
-            ',
+'92020' => 'Support to international NGOs',
 '33112' => 'Technical barriers to trade (TBT)',
 '23066' => 'Geothermal energy',
 '23063' => 'Coal-fired power plants',
@@ -388,17 +382,13 @@ $_SECTOR_CHOICES = array(
 '32140' => 'Cottage industries and handicraft',
 '31391' => 'Fishery services',
 'HB' => '(Historic)Basic health',
-'92010' => '
-              Support to national NGOs
-            ',
+'92010' => 'Support to national NGOs',
 '32166' => 'Cement/lime/plaster',
 '72022' => 'Early Recovery humanitarian assistance (Sida-specific code)',
 '33182' => 'Other trade policy and regulation',
 '25012' => 'Public private sector networking',
 '33148' => 'Training in trade negotiation techniques',
-'15161' => '
-              Elections
-            ',
+'15161' => 'Elections',
 '00000' => 'Unspecified',
 '74011' => 'Disaster preparedness (Sida-specific code)',
 '33145' => 'Trade- Services',
@@ -413,9 +403,7 @@ $_SECTOR_CHOICES = array(
 'HP' => 'Humanitarian Policy',
 '99821' => 'Promotion of dev. awareness Baltic sea',
 '43092' => 'Research supporting activities',
-'15140' => '
-              Government administration
-            ',
+'15140' => 'Government administration',
 'Sweatshops' => 'Sweatshops and Plantations',
 'P&A' => 'Performance and Accountability',
 'Informal E' => 'Informal Economy',

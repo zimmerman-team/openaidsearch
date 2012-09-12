@@ -32,7 +32,7 @@ if(!function_exists(objectToArray)) {
 		$countries = explode('|', $FILTER['countries']);
 		$array['objects'] = array();
 		foreach($countries AS $c) {
-			$array['objects'][$c] = array('path' => $_GM_POLYGONS[$c], 'name' => $_COUNTRY_ISO_MAP[$c], 'total_cnt' => 0);
+			$array['objects'][$c] = array('path' => $_GM_POLYGONS[$c], 'name' => $_COUNTRY_ISO_MAP[$c], 'total_cnt' => $_COUNTRY_ACTIVITY_COUNT[$c]);
 		}
 		/*
 		$activities_url = SEARCH_URL . "activities/?format=json&offset=0&limit={$limit}&countries={$FILTER['countries']}";
@@ -165,7 +165,7 @@ if(!function_exists(objectToArray)) {
 					$array['objects'][$iso]['total_cnt']++;
 				} else {
 					if(isset($_GM_POLYGONS[$iso])) {
-						$array['objects'][$iso] = array('path' => $_GM_POLYGONS[$iso], 'name' => $c, 'total_cnt' => 1);
+						$array['objects'][$iso] = array('path' => $_GM_POLYGONS[$iso], 'name' => $c, 'total_cnt' => $_COUNTRY_ACTIVITY_COUNT[$iso]);
 					}
 				}
 			}

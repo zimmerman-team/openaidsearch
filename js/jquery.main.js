@@ -936,12 +936,12 @@ function processAjaxMap() {
 				});
 				if(data.length==1) map.setCenter(polygon.getBounds().getCenter());
 				polygon.setMap(map);
-				/*google.maps.event.addListener(polygon, 'click', function(event){
+				google.maps.event.addListener(polygon, 'click', function(event){
 					if (typeof currentPolygon != 'undefined') {
 						currentPolygon.setOptions({fillColor: "#F96B15"});
 					}
 					this.setOptions({fillColor: "#2D6A98"});
-					var keyword = $('#s').val();
+					var keyword = jQuery('#search-field').val();
 					
 					if(keyword) {
 						keyword = encodeURI(keyword);
@@ -955,16 +955,16 @@ function processAjaxMap() {
 					"<dl>" +
 					"<dt>Total Activities:</dt>" +
 					"<dd>" +
-						"<a href=?s=" + keyword + "&countries=" + this.iso2 + ">"+this.total_cnt+" project(s)</a>" +
+						"<a href='"+sBaseUrl+"/?page_id=16&query=" + keyword + "&countries=" + this.iso2 + "'>"+this.total_cnt+" project(s)</a>" +
 					"</dd>" +
-						"<a href=?s=" + keyword + "&countries=" + this.iso2 + ">show all activities for this country</a>" +
+						"<a href='"+sBaseUrl+"/?page_id=16&query=" + keyword + "&countries=" + this.iso2 + "'>show all activities for this country</a>" +
 					"</dl>";
 					
 					infowindow.setContent(contentString);
 					infowindow.setPosition(event.latLng);
 					infowindow.open(map);
 					currentPolygon = this;
-				});*/
+				});
 			}
 		},
 		error: function(msg){
