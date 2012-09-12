@@ -23,6 +23,10 @@ if(file_exists(TEMPLATEPATH . '/regions.php')) {
 	include_once( TEMPLATEPATH . '/regions.php' );
 	asort($_REGION_CHOICES);
 }
+if(file_exists(TEMPLATEPATH . '/organisations.php')) {
+	include_once( TEMPLATEPATH . '/organisations.php' );
+	asort($_ORG_CHOICES);
+}
 
 /**
  * Disable automatic general feed link outputting.
@@ -122,6 +126,7 @@ foreach ( $filters as $filter ) {
 
 
 function wp_generate_constants() {
+	set_time_limit(0);
 	$activities_url = SEARCH_URL . "countries/?format=json&limit=0";
 	$content = file_get_contents($activities_url);
 	$result = json_decode($content);
@@ -133,8 +138,10 @@ function wp_generate_constants() {
 	$countries = array();
 	$sectors = array();
 	$regions = array();
+	$organisations = array();
 	while($start<$count) {
-		$activities_url = SEARCH_URL . "countries/?format=json&start={$start}&limit={$limit}";
+		$activities_url = SEARCH_URL . "countries/?format=json&offset={$start}&limit={$limit}";
+		
 		$content = file_get_contents($activities_url);
 		$result = json_decode($content);
 		$objects = $result->objects;
@@ -174,7 +181,7 @@ $count = $meta->total_count;
 $start=0;
 $limit=50;
 while($start<$count) {
-	$activities_url = SEARCH_URL . "sectors/?format=json&start={$start}&limit={$limit}";
+	$activities_url = SEARCH_URL . "sectors/?format=json&offset={$start}&limit={$limit}";
 	$content = file_get_contents($activities_url);
 	$result = json_decode($content);
 	$objects = $result->objects;
@@ -216,7 +223,7 @@ $start=0;
 $limit=50;
 
 while($start<$count) {
-	$activities_url = SEARCH_URL . "regions/?format=json&start={$start}&limit={$limit}";
+	$activities_url = SEARCH_URL . "regions/?format=json&offset={$start}&limit={$limit}";
 	$content = file_get_contents($activities_url);
 	$result = json_decode($content);
 	$objects = $result->objects;
@@ -246,6 +253,50 @@ $_REGION_CHOICES = array(
 	$fp = fopen(TEMPLATEPATH . '/regions.php', 'w+');
 	fwrite($fp, $to_write);
 	fclose($fp);
+	
+	
+$activities_url = SEARCH_URL . "organisations/?format=json&limit=0";
+$content = file_get_contents($activities_url);
+$result = json_decode($content);
+$meta = $result->meta;
+$count = $meta->total_count;
+
+$start=0;
+$limit=500;
+
+while($start<$count) {
+	$activities_url = SEARCH_URL . "organisations/?format=json&offset={$start}&limit={$limit}";
+	$content = file_get_contents($activities_url);
+	$result = json_decode($content);
+	$objects = $result->objects;
+	$data = objectToArray($objects);
+	
+	foreach($data AS $a) {
+		$organisations[$a['ref']] = $a['org_name'];
+	}
+	
+	$start+=$limit;
+}
+	
+	$to_write = '<?php
+$_ORG_CHOICES = array(
+';
+	if(!empty($organisations)) {
+		
+		foreach($organisations AS $key=>$value) {
+			if(empty($value) || $value=='#N/A') continue;
+			$name = addslashes($value);
+			$to_write .= "'{$key}' => '{$name}',\n";
+		}
+	}
+	
+	$to_write .= ');
+?>';
+	$fp = fopen(TEMPLATEPATH . '/organisations.php', 'w+');
+	fwrite($fp, $to_write);
+	fclose($fp);
+	
+	set_time_limit(30);
 }
 
 
@@ -661,13 +712,68 @@ function wp_generate_filter_html( $filter, $limit = 4 ) {
 				if(isset($selected[$iso])) $checked = "checked";
 				$cnt++;
 				$return .= "<li>
-							<input name=\"budget\" id=\"check-budget{$cnt}\" class=\"check\" type=\"checkbox\" value=\"{$iso}\" />
+							<input name=\"budgets\" id=\"check-budget{$cnt}\" class=\"check\" type=\"checkbox\" value=\"{$iso}\" />
 							<label for=\"check-budget{$cnt}\">{$c}</label>
 						</li>";
 				if($cnt>$limit) break;
 			}
 			
 			if($limit<count($_BUDGET_CHOICES)) {
+				$add_more = true;
+				$generate_popup = true;
+			}
+			
+			break;
+		case 'ORGANISATION':
+			global $_ORG_CHOICES;
+			if(empty($_ORG_CHOICES) && !file_exists(TEMPLATEPATH . '/organisations.php')) {
+				wp_generate_constants();
+				include_once( TEMPLATEPATH . '/organisations.php' );
+				asort($_ORG_CHOICES);
+			}
+			$_data = $_ORG_CHOICES;
+			$selected = array();
+			if(!empty($_REQUEST['organisations'])) {
+				$tmp = explode('|', $_REQUEST['organisations']);
+				foreach($tmp AS &$s) {
+					$selected[$s] = $_ORG_CHOICES[$s];
+				}
+				
+				if(count($selected)>$limit) {
+					$limit=count($selected);
+					$_data = $selected;
+				} else {
+					$limit -= count($selected);
+					$_data = array_diff($_data, $selected);
+				}
+			}
+			
+			$cnt = 1;
+			$checked = "";
+			if(!empty($selected)) {
+				foreach($selected AS $iso=>$c) {
+					$checked = "checked=\"checked\"";
+					$cnt++;
+					$return .= "<li>
+								<input name=\"organisations\" id=\"check-org{$cnt}\" class=\"check\" type=\"checkbox\" value=\"{$iso}\" {$checked} />
+								<label for=\"check-org{$cnt}\">{$c}</label>
+								</li>";
+				}
+				
+				$limit+=$cnt-1;
+			}
+			foreach($_data AS $iso=>$c) {
+				$checked = "";
+				if(isset($selected[$iso])) $checked = "checked=\"checked\"";
+				$cnt++;
+				$return .= "<li>
+							<input name=\"organisations\" id=\"check-org{$cnt}\" class=\"check\" type=\"checkbox\" value=\"{$iso}\" {$checked} />
+							<label for=\"check-org{$cnt}\">{$c}</label>
+							</li>";
+				if($cnt>$limit) break;
+			}
+			
+			if($limit<count($_ORG_CHOICES)) {
 				$add_more = true;
 				$generate_popup = true;
 			}
@@ -822,6 +928,47 @@ function wp_generate_filter_popup($filter, $limit = 4 ) {
 			
 			
 			break;
+		
+		case 'ORGANISATION':
+			global $_ORG_CHOICES;
+			if(empty($_ORG_CHOICES) && !file_exists(TEMPLATEPATH . '/organisations.php')) {
+				wp_generate_constants();
+				include_once( TEMPLATEPATH . '/organisations.php' );
+				asort($_ORG_CHOICES);
+			}
+			
+			if($limit>=count($_ORG_CHOICES)) {
+				return "";
+			}
+			
+			$return = preg_replace("/__filter__/", strtolower($filter), $return);
+			$return = preg_replace("/__filter_name__/", "Sectors", $return);
+			
+			$fltr_cnt = count($_ORG_CHOICES);
+			
+			if($fltr_cnt%3!=0) $fltr_cnt++;
+			while($fltr_cnt%3!=0) {
+				$fltr_cnt++;
+			}
+			
+			$items_per_col = $fltr_cnt/3;
+			$cnt = 0;
+			$return .= "<menu class=\"column\">";
+			foreach($_ORG_CHOICES AS $iso=>$c) {
+				
+				$cnt++;
+				$return .= "<li>
+							<input name=\"organisations\" id=\"check-org{$cnt}\" class=\"check\" type=\"checkbox\" value=\"{$iso}\" />
+							<label for=\"check-org{$cnt}\">{$c}</label>
+						</li>";
+				if($cnt%$items_per_col==0) {
+					$return .= "</menu><menu class=\"column\">";
+				}
+			}
+			$return .= "</menu>";
+			
+			
+			break;
 		default:
 			
 			break;
@@ -837,7 +984,7 @@ function wp_generate_filter_popup($filter, $limit = 4 ) {
 	return $return;
 }
 
-function wp_generate_results_html(&$meta) {
+function wp_generate_results_html(&$meta, &$has_filter) {
 	global $_DEFAULT_ORGANISATION_ID, $_PER_PAGE, $_COUNTRY_ISO_MAP;
 	$search_url = SEARCH_URL . "activities/?format=json&limit={$_PER_PAGE}";
 	if(!empty($_DEFAULT_ORGANISATION_ID)) {
@@ -921,7 +1068,7 @@ function wp_generate_results_html(&$meta) {
 			$return .= '<tr>
 						<td class="col1">
 							<strong class="title"><a href="/?page_id=20&id='.$project->iati_identifier.'">'.$project->titles[0]->title.'</a></strong>
-							<p>'.$project->descriptions[0]->description.'</p>
+							<p>'.neat_trim($project->descriptions[0]->description, 70).'</p>
 						</td>
 						<td>';
 			$sep = '';
@@ -950,6 +1097,41 @@ function wp_generate_results_html(&$meta) {
 	}
 	return $return;
 	
+}
+
+function wp_generate_paging($meta) {
+	global $_PER_PAGE;
+	//fix the paging 
+	$total_count = $meta->total_count;
+	$offset = $meta->offset;
+	$limit = $meta->limit;
+	$per_page = $_PER_PAGE;
+	$total_pages = ceil($total_count/$limit);
+	$cur_page = $offset/$limit + 1;
+	
+	$paging_block = '<ul class="paging" id="paging"><li class="link-prev"><a href="javascript:void(0);">previous</a></li>';
+	$page_limit = 6;
+	$show_dots = true;
+		
+
+	for($i=1; $i<=$total_pages; $i++) {
+		if ($i == 1 || $i == $total_pages || ($i >= $cur_page - $page_limit && $i <= $cur_page + $page_limit) ) {
+			$show_dots = true;
+			if($cur_page==$i) {
+				$paging_block .= "<li><strong id='cur_page'>{$i}</strong></li>";
+			} else {
+				$paging_block .= "<li><a href='javascript:void(0);'>{$i}</a></li>";
+			}
+		
+		} else if ($show_dots == true) {
+			$show_dots = false;
+			$paging_block .= "<li>...</li>";
+		}
+	}
+		
+	$paging_block .= '<li class="link-next"><a href="javascript:void(0);">next</a></li></ul>';
+	
+	echo $paging_block;
 }
 
 function wp_get_activity($identifier) {
@@ -1018,5 +1200,16 @@ function objectToArray($d) {
 		// Return array
 		return $d;
 	}
+}
+
+function neat_trim($str, $n, $delim='...') {
+   $len = strlen($str);
+   if ($len > $n) {
+       preg_match('/(.{' . $n . '}.*?)\b/', $str, $matches);
+       return rtrim($matches[1]) . $delim;
+   }
+   else {
+       return $str;
+   }
 }
 ?>

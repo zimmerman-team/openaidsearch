@@ -617,7 +617,7 @@ input[type=submit]:hover{cursor:pointer;}
 }
 .filter-form .check{
 	float:left;
-	margin:0 8px 0 0;
+	margin:3px 8px 0 0;
 	padding:0;
 	width:13px;
 	height:13px;

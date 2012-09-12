@@ -48,6 +48,7 @@
         <?php endif; ?>
 	
         <?php if(is_page_template('template-explore.php') || is_page_template('template-pdetails.php')): ?>
+			<?php echo wp_generate_filter_popup('organisation'); ?>
 			<?php echo wp_generate_filter_popup('country'); ?>
 			<?php echo wp_generate_filter_popup('region'); ?>
 			<?php echo wp_generate_filter_popup('sector'); ?>

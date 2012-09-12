@@ -10,73 +10,143 @@ Template Name: Explore Template
 			<?php if ( get_post_meta(get_the_ID(), 'Header Image', true) ) : ?>
 			<!-- map -->
 			<div class="map-block">			
-			    <?php echo filter_template_url(get_post_meta(get_the_ID(), 'Header Image', true)); ?>
+			    <div id="map_canvas" style="width: 940px; height: 300px;"></div>
 			</div>
 			<?php endif; ?>
-			<?php $activities = wp_generate_results_html($meta); ?>
+			<?php $activities = wp_generate_results_html($meta, $has_filter); ?>
 			<!-- nav-section -->
 			<nav class="nav-section">
 				<strong class="title">All <mark><?php echo $meta->total_count; ?></mark> projects</strong>
 				<!-- info-list -->
-				<ul class="info-list" id="info-list">
-					<li><a href="#">World bank</a>
-						<div class="drop">
-							<ul>
-								<li class="remove"><a href="#">Remove</a></li>
-								<li><a href="#">African Dev..</a></li>
-								<li><a href="#">Asian Dev..</a></li>
-								<li><a href="#">Inter Amer..</a></li>
-								<li class="more"><a href="#popup" class="open-popup">More..</a></li>
-							</ul>
-						</div>
-					</li>
-					<li><a href="#">€ 1.000.000</a>
-						<div class="drop">
-							<ul>
-								<li class="remove"><a href="#">Remove</a></li>
-								<li><a href="#">€ 10.000</a></li>
-								<li><a href="#">€ 50.000</a></li>
-								<li><a href="#">€ 100.000</a></li>
-								<li><a href="#">€ 500.000</a></li>
-								<li><a href="#">€ 1.000.000</a></li>
-								<li><a href="#">€ 5.000.000</a></li>
-								<li><a href="#">€ 10.000.000</a></li>
-							</ul>
-						</div>
-					</li>
-					<li><a href="#">Central America</a>
-						<div class="drop">
-							<ul>
-								<li class="remove"><a href="#">Remove</a></li>
-								<li><a href="#">Caribbean</a></li>
-								<li><a href="#">Eastern Africa</a></li>
-								<li><a href="#">Eastern Asia</a></li>
-								<li class="more"><a href="#popup" class="open-popup">More..</a></li>
-							</ul>
-						</div>
-					</li>
-					<li><a href="#">Advanced technical and managerial training</a>
-						<div class="drop">
-							<ul>
-								<li class="remove"><a href="#">Remove</a></li>
-								<li><a href="#">Advanced technical and managerial training</a></li>
-								<li><a href="#">Agrarian reform</a></li>
-								<li><a href="#">Agricultural co-operatives</a></li>
-								<li class="more"><a href="#popup" class="open-popup">More..</a></li>
-							</ul>
-						</div>
-					</li>
-					<li><a href="#">Suriname</a>
-						<div class="drop">
-							<ul>
-								<li class="remove"><a href="#">Remove</a></li>
-								<li><a href="#">Algeria</a></li>
-								<li><a href="#">Angola</a></li>
-								<li><a href="#">Argentina</a></li>
-								<li class="more"><a href="#popup" class="open-popup">More..</a></li>
-							</ul>
-						</div>
-					</li>
+				<ul class="info-list" id="info-list" <?php echo ($has_filter?'':' style="display: none;"')?>>
+					<?php 
+					
+						if(isset($_REQUEST['query']) && !empty($_REQUEST['query'])) {
+							$query = rawurlencode($_REQUEST['query']);
+							$srch_countries = array_map('strtolower', $_COUNTRY_ISO_MAP);
+							$srch_countries = array_flip($srch_countries);
+							$key = strtolower($query);
+							if(isset($srch_countries[$key])) {
+								$srch_countries = $srch_countries[$key];
+							} else {
+								$srch_countries = null;
+							}
+						}
+						if(!empty($_REQUEST['organisations'])) {
+							$tmp = explode('|', $_REQUEST['organisations']);
+							foreach($tmp AS $idx => &$s) {
+								echo '<li><a href="#">'.$_ORG_CHOICES[$s].'</a>';
+								unset($tmp[$idx]);
+								break;
+							}
+							echo '<div class="drop">
+									<ul>
+										<li class="remove"><a href="#" id="organisations">Clear</a></li>';
+							
+							if(!empty($tmp)) {
+								foreach($tmp AS $idx => &$s) {
+									echo '<li><a href="#">'.$_ORG_CHOICES[$s].'</a></li>';
+								}
+							}
+							
+							echo "</ul>
+								</div></li>";
+						}
+						if(!empty($_REQUEST['budgets'])) {
+							$tmp = explode('|', $_REQUEST['budgets']);
+							foreach($tmp AS $idx => &$s) {
+								echo '<li><a href="#">'.$_BUDGET_CHOICES[$s].'</a>';
+								unset($tmp[$idx]);
+								break;
+							}
+							echo '<div class="drop">
+									<ul>
+										<li class="remove"><a href="#" id="budgets">Clear</a></li>';
+							
+							if(!empty($tmp)) {
+								foreach($tmp AS $idx => &$s) {
+									echo '<li><a href="#">'.$_BUDGET_CHOICES[$s].'</a></li>';
+								}
+							}
+							
+							echo "</ul>
+								</div></li>";
+						}
+						if(!empty($_REQUEST['regions'])) {
+							$tmp = explode('|', $_REQUEST['regions']);
+							foreach($tmp AS $idx => &$s) {
+								echo '<li><a href="#">'.$_REGION_CHOICES[$s].'</a>';
+								unset($tmp[$idx]);
+								break;
+							}
+							echo '<div class="drop">
+									<ul>
+										<li class="remove"><a href="#" id="regions">Clear</a></li>';
+							
+							if(!empty($tmp)) {
+								foreach($tmp AS $idx => &$s) {
+									echo '<li><a href="#">'.$_REGION_CHOICES[$s].'</a></li>';
+								}
+							}
+							
+							echo "</ul>
+								</div></li>";
+						}
+						if(!empty($_REQUEST['sectors'])) {
+							$tmp = explode('|', $_REQUEST['sectors']);
+							foreach($tmp AS $idx => &$s) {
+								echo '<li><a href="#">'.$_SECTOR_CHOICES[$s].'</a>';
+								unset($tmp[$idx]);
+								break;
+							}
+							echo '<div class="drop">
+									<ul>
+										<li class="remove"><a href="#" id="sectors">Clear</a></li>';
+							
+							if(!empty($tmp)) {
+								foreach($tmp AS $idx => &$s) {
+									echo '<li><a href="#">'.$_SECTOR_CHOICES[$s].'</a></li>';
+								}
+							}
+							
+							echo "</ul>
+								</div></li>";
+						}
+						if(!empty($_REQUEST['countries'])) {
+							$tmp = explode('|', $_REQUEST['countries']);
+							foreach($tmp AS $idx => &$s) {
+								echo '<li><a href="#">'.$_COUNTRY_ISO_MAP[$s].'</a>';
+								unset($tmp[$idx]);
+								break;
+							}
+							echo '<div class="drop">
+									<ul>
+										<li class="remove"><a href="#" id="countries">Clear</a></li>';
+							
+							if(!empty($tmp)) {
+								foreach($tmp AS $idx => &$s) {
+									echo '<li><a href="#">'.$_COUNTRY_ISO_MAP[$s].'</a></li>';
+								}
+							}
+							
+							if(!empty($srch_countries) && !in_array($srch_countries, $tmp)) {
+								echo '<li><a href="#">'.$_COUNTRY_ISO_MAP[$srch_countries].'</a></li>';
+								$countries .= $cSep . $srch_countries;
+							}
+							
+							echo "</ul>
+								</div></li>";
+						} else {
+							if(!empty($srch_countries)) {
+								echo '<li><a href="#">'.$_COUNTRY_ISO_MAP[$srch_countries].'</a>';
+								echo '<div class="drop">
+										<ul>
+											<li class="remove"><a href="#" id="countries">Clear</a></li>';
+								echo "</ul>
+									</div></li>";
+							}
+						}
+					?>
 				</ul>
 			</nav>
 			<!-- two-columns -->
@@ -94,25 +164,7 @@ Template Name: Explore Template
 						<fieldset>
 							<div class="aside-block">
 								<h2>IATI sets</h2>
-								<menu>
-									<li>
-										<input id="check-set1" class="check" type="checkbox" />
-										<label for="check-set1">World Bank</label>
-									</li>
-									<li>
-										<input id="check-set2" class="check" type="checkbox" />
-										<label for="check-set2">African Developm...</label>
-									</li>
-									<li>
-										<input id="check-set3" class="check" type="checkbox" />
-										<label for="check-set3">Asian Developme...</label>
-									</li>
-									<li>
-										<input id="check-set4" class="check" type="checkbox" />
-										<label for="check-set4">Inter-American D...</label>
-									</li>
-								</menu>
-								<a href="#popup" class="more open-popup">More..</a>
+								<?php echo wp_generate_filter_html('organisation'); ?>
 							</div>
 							<!-- aside-block -->
 							<div class="aside-block">
@@ -169,23 +221,133 @@ Template Name: Explore Template
 								</select>
 							</fieldset>
 						</form>
-						<!-- paging -->
-						<ul class="paging" id="paging">
-							<li class="link-prev"><a href="javascript:#">previous</a></li>
-							<li><strong id="cur_page">1</strong></li>
-							<li><a href="javascript:#">2</a></li>
-							<li><a href="javascript:#">3</a></li>
-							<li><a href="javascript:#">4</a></li>
-							<li><a href="javascript:#">5</a></li>
-							<li><a href="javascript:#">6</a></li>
-							<li><a href="javascript:#">7</a></li>
-							<li><a href="javascript:#">8</a></li>
-							<li><a href="javascript:#">9</a></li>
-							<li><a href="javascript:#">10</a></li>
-							<li class="link-next"><a href="javascript:#">next</a></li>
-						</ul>
+						<!-- paging -->						
+						<?php echo wp_generate_paging($meta); ?>
 					</div>
 				</div>
 			</div>
 	</section>
+	<script type="text/javascript" charset="utf-8">
+		function initPageMap(country) {
+			var baseUrl = top.location.pathname.toString(),
+			url = "<?php bloginfo('template_directory') ?>/map_search.php?countries=<?php echo $countries ?><?php echo $search_url; ?>";
+			var countries = '<?php echo $countries ?>';
+
+			jQuery.ajax({
+				url: url,
+				type: "GET",
+				dataType: "json",
+				success: function(data){
+					initMap(data);
+				},
+				error: function(msg){
+					alert('AJAX error!' + msg);
+					return false;
+				}
+			});
+
+
+			function initMap(result) {
+				var myLatLng = new google.maps.LatLng(9.795678,26.367188);
+				var myOptions = {
+					zoom : 2,
+					center : myLatLng,
+					mapTypeId : google.maps.MapTypeId.ROADMAP,
+					scrollwheel: false,
+					streetViewControl : false
+				};
+
+				var map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+				if (!google.maps.Polygon.prototype.getBounds) {
+
+					google.maps.Polygon.prototype.getBounds = function(latLng) {
+
+							var bounds = new google.maps.LatLngBounds();
+							var paths = this.getPaths();
+							var path;
+							
+							for (var p = 0; p < paths.getLength(); p++) {
+									path = paths.getAt(p);
+									for (var i = 0; i < path.getLength(); i++) {
+											bounds.extend(path.getAt(i));
+									}
+							}
+
+							return bounds;
+					}
+
+				}
+				var data = result['objects'];
+				for(idx in data) {
+					var lats = [];
+					var lat_size =  data[idx]['path'].length;
+
+					for (var t=0; t <lat_size; t++) {
+						var inner = [];
+						for (var i=0; i <data[idx]['path'][t].length; i++) {
+							var lat = data[idx]['path'][t][i].split(',');
+							inner.push(new google.maps.LatLng(lat[0], lat[1]));
+						}
+						lats.push(inner);
+					}
+					var polygon = new google.maps.Polygon({
+						paths: lats,
+						strokeColor: "#FFFFFF",
+						strokeOpacity: 0.8,
+						strokeWeight: 2,
+						fillColor: "#F96B15",
+						fillOpacity: 0.65,
+						country: data[idx]['name'],
+						total_cnt: data[idx]['total_cnt'],
+						total_activities_url: "?countries="+idx,
+						iso2 : idx
+					});
+					if (countries) map.setCenter(polygon.getBounds().getCenter());
+					polygon.setMap(map);
+					//google.maps.event.addListener(polygon, 'click', showInfo);
+					//infowindow = new google.maps.InfoWindow();
+					//google.maps.event.addListener(infowindow, 'closeclick', resetColor);
+				}
+				
+				function showInfo(event){
+					if (typeof currentPolygon != 'undefined') {
+						currentPolygon.setOptions({fillColor: "#F96B15"});
+					}
+					this.setOptions({fillColor: "#2D6A98"});
+					var keyword = $('#s').val();
+					
+					if(keyword) {
+						keyword = encodeURI(keyword);
+					}
+					var contentString = "" + 
+					"<h2>" + 
+						"<img src='<?php echo bloginfo('template_url'); ?>/images/flags/" + this.iso2.toLowerCase() + ".gif' />" +
+						this.country + 
+					"</h2>" +
+					"<dl>" +
+					"<dt>Total Activities:</dt>" +
+					"<dd>" +
+						"<a href=?s=" + keyword + "&countries=" + this.iso2 + ">"+this.total_cnt+" project(s)</a>" +
+					"</dd>" +
+						"<a href=?s=" + keyword + "&countries=" + this.iso2 + ">show all activities for this country</a>" +
+					"</dl>";
+					
+					infowindow.setContent(contentString);
+					infowindow.setPosition(event.latLng);
+					infowindow.open(map);
+					currentPolygon = this;
+				}
+				
+				function resetColor(){
+					currentPolygon.setOptions({fillColor: "#F96B15"});
+				}
+			}
+		}
+		jQuery(document).ready(function() {
+			var script = document.createElement("script");
+			script.type = "text/javascript";
+			script.src = "http://maps.googleapis.com/maps/api/js?sensor=false&callback=initPageMap";
+			document.body.appendChild(script);
+		});
+	</script>
 <?php get_footer(); ?>

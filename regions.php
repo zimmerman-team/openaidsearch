@@ -11,9 +11,10 @@ $_REGION_CHOICES = array(
 '589' => 'Middle East, regional',
 '619' => 'Central Asia, regional',
 '679' => 'South Asia, regional',
-'689' => 'Far East Asia, regional',
-'789' => 'Asia, regional',
-'798' => 'Oceania, regional',
+'689' => 'South and Central Asia, regional',
+'789' => 'Far East Asia, regional',
+'798' => 'Asia, regional',
+'889' => 'Oceania, regional',
 '998' => 'Bilateral, unspecified',
 );
 ?>

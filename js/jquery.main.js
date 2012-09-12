@@ -41,6 +41,52 @@ jQuery(function(){
 			return true;
 		}
 	});
+	
+	jQuery('select[name="perpage"]').change(function(){
+		processAjaxFilters(0);
+	});
+	
+	jQuery('form#filter-form input[type="checkbox"]').click(function(){
+		var val = jQuery(this).val();
+		var name = jQuery(this).attr('name');
+		var selector = '';
+		switch(name) {
+			case 'countries':
+				selector = '#country_popup input[type=checkbox]';
+				break;
+			case 'regions':
+				selector = '#region_popup input[type=checkbox]';
+				break;
+			case 'sectors':
+				selector = '#sector_popup input[type=checkbox]';
+				break;
+			
+		}
+		if(jQuery(this).is(':checked')) {
+			jQuery(selector).each(function(){
+				if(jQuery(this).val()==val) jQuery(this).attr('checked', true);
+			});
+		} else {
+		
+			var keyword = jQuery('#s').val();
+			if(keyword) {
+				keyword = keyword.toLowerCase();
+				var lbl = jQuery(this).parent().text();
+				if(lbl.toLowerCase()==keyword) {
+					jQuery('#s').val('');
+				}
+			}
+			selector += ':checked';
+			jQuery(selector).each(function(){
+				if(jQuery(this).val()==val) jQuery(this).attr('checked', false);
+			});
+			
+			
+		}
+		
+		processAjaxFilters(0);
+		
+	});	
 });
 
 // init fade drop
@@ -70,6 +116,7 @@ function initPager() {
 			var className = jQuery(this).parent().attr('class');
 			var cur_page = parseInt(jQuery('#cur_page').html());
 			var per_page = jQuery('select[name="perpage"]').val();
+			_per_page = per_page;
 			if(className=='link-prev') {
 				var offset = (cur_page-2)*per_page;
 				if(cur_page==1) return false;
@@ -724,9 +771,209 @@ jcf.setBaseModule({
 	}
 });
 
-function processAjaxFilters(offset) {
+function processAjaxMap() {
+	var url =  sThemePath + "/map_search.php",
+	urlSep = "?", country_fltr = '', region_fltr = '', sector_fltr = '', budget_fltr = '', org_fltr = '',
+	sep = "", selectedFltrs = [], isFilter = false;
+
+	jQuery('#map_canvas').empty();
 	
-	var baseUrl = top.location.pathname.toString();
+	var html = "<center><p>" +
+			"<img src='"+sThemePath+"/images/ajax-loader.gif' alt='Loading results' />" +
+			"</p></center>";
+			
+	
+	jQuery('#map_canvas').html(html);
+	
+	jQuery('form#filter-form input[type=checkbox]:checked').each(function(){
+		var control_name = jQuery(this).attr('name');
+		var key = jQuery(this).val();
+		switch(control_name) {
+			case 'countries':
+				if(!selectedFltrs['countries']) selectedFltrs['countries'] = [];
+				if(country_fltr.length==0) sep = '';
+				country_fltr += sep + key;
+				sep = "|";
+				var lbl = jQuery(this).parent().text();
+				if(key!='All') selectedFltrs['countries'][key] = lbl;
+				break;
+			case 'regions':
+				if(!selectedFltrs['regions']) selectedFltrs['regions'] = [];
+				if(region_fltr.length==0) sep = '';
+				region_fltr += sep + key;
+				sep = "|";
+				var lbl = jQuery(this).parent().text();
+				if(key!='All') selectedFltrs['regions'][key] = lbl;
+				break;
+			case 'sectors':
+				if(!selectedFltrs['sectors']) selectedFltrs['sectors'] = [];
+				if(sector_fltr.length==0) sep = '';
+				sector_fltr += sep + key;
+				sep = "|";
+				var lbl = jQuery(this).parent().text();
+				if(key!='All') selectedFltrs['sectors'][key] = lbl;
+				break;
+			case 'budgets':
+				if(!selectedFltrs['budgets']) selectedFltrs['budgets'] = [];
+				if(budget_fltr.length==0) sep = '';
+				budget_fltr += sep + key;
+				sep = "|";
+				var lbl = jQuery(this).parent().text();
+				if(key!='All') selectedFltrs['budgets'][key] = lbl;
+				break;
+			case 'organisations':
+				if(!selectedFltrs['organisations']) selectedFltrs['organisations'] = [];
+				if(org_fltr.length==0) sep = '';
+				org_fltr += sep + key;
+				sep = "|";
+				var lbl = jQuery(this).parent().text();
+				if(key!='All') selectedFltrs['organisations'][key] = lbl;
+				break;
+		}
+	});
+	
+	country_fltr = country_fltr.replace(/(All\|)|(\|All)|(All)/g, '');
+	region_fltr = region_fltr.replace(/(All\|)|(\|All)|(All)/g, '');
+	sector_fltr = sector_fltr.replace(/(All\|)|(\|All)|(All)/g, '');
+	budget_fltr = budget_fltr.replace(/(All\|)|(\|All)|(All)/g, '');
+	org_fltr = org_fltr.replace(/(All\|)|(\|All)|(All)/g, '');
+
+	var keyword = jQuery('#s').val();
+	if(keyword) {
+		url +=  urlSep + "query=" + encodeURI(keyword);
+		urlSep = "&";
+	}
+	
+	
+	if(country_fltr.length>0) {
+		url +=  urlSep + "countries=" + country_fltr;
+		urlSep = "&";
+		isFilter = true;
+	}
+	if(region_fltr.length>0) {
+		url +=  urlSep + "regions=" + region_fltr;
+		urlSep = "&";
+		isFilter = true;
+	}
+	if(sector_fltr.length>0) {
+		url +=  urlSep + "sectors=" + sector_fltr;
+		urlSep = "&";
+		isFilter = true;
+	}
+	if(budget_fltr.length>0) {
+		url +=  urlSep + "budgets=" + budget_fltr;
+		urlSep = "&";
+		isFilter = true;
+	}
+	if(org_fltr.length>0) {
+		url +=  urlSep + "organisations=" + org_fltr;
+		urlSep = "&";
+		isFilter = true;
+	}
+	
+	jQuery.ajax({
+		url: url,
+		type: "GET",
+		dataType: "json",
+		success: function(result){
+			
+			var myLatLng = new google.maps.LatLng(-3.2013100765,-9.64460607187);
+			var myOptions = {
+				zoom : 2,
+				center : myLatLng,
+				mapTypeId : google.maps.MapTypeId.ROADMAP,
+				scrollwheel: false,
+				streetViewControl : false
+			};
+
+			var map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+			if (!google.maps.Polygon.prototype.getBounds) {
+
+				google.maps.Polygon.prototype.getBounds = function(latLng) {
+
+						var bounds = new google.maps.LatLngBounds();
+						var paths = this.getPaths();
+						var path;
+						
+						for (var p = 0; p < paths.getLength(); p++) {
+								path = paths.getAt(p);
+								for (var i = 0; i < path.getLength(); i++) {
+										bounds.extend(path.getAt(i));
+								}
+						}
+
+						return bounds;
+				}
+
+			}
+			var data = result['objects'];
+			for(idx in data) {
+				var lats = [];
+				var lat_size =  data[idx]['path'].length;
+
+				for (var t=0; t <lat_size; t++) {
+					var inner = [];
+					for (var i=0; i <data[idx]['path'][t].length; i++) {
+						var lat = data[idx]['path'][t][i].split(',');
+						inner.push(new google.maps.LatLng(lat[0], lat[1]));
+					}
+					lats.push(inner);
+				}
+				var polygon = new google.maps.Polygon({
+					paths: lats,
+					strokeColor: "#FFFFFF",
+					strokeOpacity: 0.8,
+					strokeWeight: 2,
+					fillColor: "#F96B15",
+					fillOpacity: 0.65,
+					country: data[idx]['name'],
+					total_cnt: data[idx]['total_cnt'],
+					total_activities_url: "?countries="+idx,
+					iso2 : idx
+				});
+				if(data.length==1) map.setCenter(polygon.getBounds().getCenter());
+				polygon.setMap(map);
+				/*google.maps.event.addListener(polygon, 'click', function(event){
+					if (typeof currentPolygon != 'undefined') {
+						currentPolygon.setOptions({fillColor: "#F96B15"});
+					}
+					this.setOptions({fillColor: "#2D6A98"});
+					var keyword = $('#s').val();
+					
+					if(keyword) {
+						keyword = encodeURI(keyword);
+					}
+					
+					var contentString = "" + 
+					"<h2>" + 
+						"<img src='"+sThemePath+"/images/flags/" + this.iso2.toLowerCase() + ".gif' />" +
+						this.country + 
+					"</h2>" +
+					"<dl>" +
+					"<dt>Total Activities:</dt>" +
+					"<dd>" +
+						"<a href=?s=" + keyword + "&countries=" + this.iso2 + ">"+this.total_cnt+" project(s)</a>" +
+					"</dd>" +
+						"<a href=?s=" + keyword + "&countries=" + this.iso2 + ">show all activities for this country</a>" +
+					"</dl>";
+					
+					infowindow.setContent(contentString);
+					infowindow.setPosition(event.latLng);
+					infowindow.open(map);
+					currentPolygon = this;
+				});*/
+			}
+		},
+		error: function(msg){
+			alert('AJAX error!' + msg);
+			return false;
+		}
+	});
+}
+
+function processAjaxFilters(offset) {
+	processAjaxMap();
+	var baseUrl = top.location.pathname.toString(), isFilter = false, selectedFltrs = [];
 	jQuery('#info-table > tbody').empty();
 	
 	var html = "<tr>" +
@@ -740,29 +987,60 @@ function processAjaxFilters(offset) {
 	
 	var url =  sThemePath + "/ajax_search.php";
 	var urlSep = "?";
-	var country_fltr = '', region_fltr = '', sector_fltr = '', budget_fltr = '';
+	var country_fltr = '', region_fltr = '', sector_fltr = '', budget_fltr = '', org_fltr = '';
 	var sep = "";
 	jQuery('form#filter-form input[name="countries"]:checked').each(function(){
-		country_fltr += sep + jQuery(this).val();
+		if(!selectedFltrs['countries']) selectedFltrs['countries'] = [];
+		var key = jQuery(this).val();
+		country_fltr += sep + key;
+		var lbl = jQuery(this).next().text();
+		selectedFltrs['countries'][key] = lbl;
 		sep = "|";
+		isFilter = true;
 	});
 	
 	sep = "";
 	jQuery('form#filter-form input[name="regions"]:checked').each(function(){
-		region_fltr += sep + jQuery(this).val();
+		if(!selectedFltrs['regions']) selectedFltrs['regions'] = [];
+		var key = jQuery(this).val();
+		region_fltr += sep + key;
+		var lbl = jQuery(this).next().text();
+		selectedFltrs['regions'][key] = lbl;
 		sep = "|";
+		isFilter = true;
 	});
 	
 	sep = "";
 	jQuery('form#filter-form input[name="sectors"]:checked').each(function(){
-		sector_fltr += sep + jQuery(this).val();
+		if(!selectedFltrs['sectors']) selectedFltrs['sectors'] = [];
+		var key = jQuery(this).val();
+		sector_fltr += sep + key;
+		var lbl = jQuery(this).next().text();
+		selectedFltrs['sectors'][key] = lbl;
 		sep = "|";
+		isFilter = true;
 	});
 	
 	sep = "";
 	jQuery('form#filter-form input[name="budgets"]:checked').each(function(){
-		budget_fltr += sep + jQuery(this).val();
+		if(!selectedFltrs['budgets']) selectedFltrs['budgets'] = [];
+		var key = jQuery(this).val();
+		budget_fltr += sep + key;
+		var lbl = jQuery(this).next().text();
+		selectedFltrs['budgets'][key] = lbl;
 		sep = "|";
+		isFilter = true;
+	});
+	
+	sep = "";
+	jQuery('form#filter-form input[name="organisations"]:checked').each(function(){
+		if(!selectedFltrs['organisations']) selectedFltrs['organisations'] = [];
+		var key = jQuery(this).val();
+		org_fltr += sep + key;
+		var lbl = jQuery(this).next().text();
+		selectedFltrs['organisations'][key] = lbl;
+		sep = "|";
+		isFilter = true;
 	});
 	
 	var keyword = jQuery('#search-field').val();
@@ -786,6 +1064,10 @@ function processAjaxFilters(offset) {
 	}
 	if(budget_fltr.length>0) {
 		url +=  urlSep + "budgets=" + budget_fltr;
+		urlSep = "&";
+	}
+	if(org_fltr.length>0) {
+		url +=  urlSep + "organisations=" + org_fltr;
 		urlSep = "&";
 	}
 	
@@ -814,6 +1096,143 @@ function processAjaxFilters(offset) {
 			return false;
 		}
 	});
+	
+	if(isFilter) {
+		applyFilterHTML(selectedFltrs);
+	} else {
+		jQuery('#info-list').empty().hide();
+	}
+}
+
+
+function applyFilterHTML(selected) {
+	jQuery('#info-list').empty();
+	var baseUrl = top.location.pathname.toString();
+	var html = '';
+	var sep = '';
+	if(!jQuery.isEmptyObject(selected.organisations)) {
+		html += '<li>';
+		for(key in selected.organisations) {
+			var lbl = selected.organisations[key];
+			if(lbl.length > 10) {
+				lbl = lbl.substring(0,10)+"...";
+			}
+			html += '<a href="#" title="'+selected.organisations[key]+'">'+lbl+'</a>';
+			sep = ', ';
+			delete selected.organisations[key];
+			break;
+		}
+		html += '<div class="drop">' +
+					'<ul>' +
+						'<li class="remove"><a href="#" id="organisations">Clear</a></li>';
+						
+		for(key in selected.organisations) {
+			var lbl = selected.organisations[key];
+			if(lbl.length > 10) {
+				lbl = lbl.substring(0,10)+"...";
+			}
+			html += '<li><a href="#" title="'+selected.organisations[key]+'">'+lbl+'</a></li>';
+		}			
+		html += '</ul></div></li>';
+	}
+	sep = '';
+	if(!jQuery.isEmptyObject(selected.countries)) {
+		html += '<li>';
+		for(key in selected.countries) {
+			var lbl = selected.countries[key];
+			html += '<a href="#">'+lbl+'</a>';
+			sep = ', ';
+			delete selected.countries[key];
+			break;
+		}
+		html += '<div class="drop">' +
+					'<ul>' +
+						'<li class="remove"><a href="#" id="countries">Clear</a></li>';
+						
+		for(key in selected.countries) {
+			var lbl = selected.countries[key];
+			html += '<li><a href="#">'+lbl+'</a></li>';
+		}			
+		html += '</ul></div></li>';
+	}
+	sep = '';
+	if(!jQuery.isEmptyObject(selected.regions)) {
+		html += '<li>';
+		for(key in selected.regions) {
+			var lbl = selected.regions[key];
+			html += '<a href="#">'+lbl+'</a>';
+			sep = ', ';
+			delete selected.regions[key];
+			break;
+		}
+		html += '<div class="drop">' +
+					'<ul>' +
+						'<li class="remove"><a href="#" id="regions">Clear</a></li>';
+						
+		for(key in selected.regions) {
+			var lbl = selected.regions[key];
+			html += '<li><a href="#">'+lbl+'</a></li>';
+		}			
+		html += '</ul></div></li>';
+	}
+	sep = '';
+	if(!jQuery.isEmptyObject(selected.sectors)) {
+		html += '<li>';
+		for(key in selected.sectors) {
+			var lbl = selected.sectors[key];
+			html += '<a href="#">'+lbl+'</a>';
+			sep = ', ';
+			delete selected.sectors[key];
+			break;
+		}
+		html += '<div class="drop">' +
+					'<ul>' +
+						'<li class="remove"><a href="#" id="sectors">Clear</a></li>';
+						
+		for(key in selected.sectors) {
+			var lbl = selected.sectors[key];
+			html += '<li><a href="#">'+lbl+'</a></li>';
+		}			
+		html += '</ul></div></li>';
+	}
+	sep = '';
+	if(!jQuery.isEmptyObject(selected.budgets)) {
+		html += '<li>';
+		for(key in selected.budgets) {
+			var lbl = selected.budgets[key];
+			html += '<a href="#">'+lbl+'</a>';
+			sep = ', ';
+			delete selected.budgets[key];
+			break;
+		}
+		html += '<div class="drop">' +
+					'<ul>' +
+						'<li class="remove"><a href="#" id="budgets">Clear</a></li>';
+						
+		for(key in selected.budgets) {
+			var lbl = selected.budgets[key];
+			html += '<li><a href="#">'+lbl+'</a></li>';
+		}			
+		html += '</ul></div></li>';
+	}
+	html += '</ul>';
+	jQuery('#info-list').html(html);
+	jQuery('#info-list').show();
+	
+	new touchNav({
+		navBlock: 'info-list' 
+	});
+	initFadeDrop();
+	
+	
+	jQuery("#info-list li.remove a").click(function(){
+		var id = jQuery(this).attr('id');
+		var selector = 'form#filter-form input[name="'+id+'"]';
+		
+		jQuery(selector).attr('checked', false);
+		processAjaxFilters(0);
+		return false;
+	});
 }
 
 function applyResults(meta, objects) {
@@ -828,10 +1247,14 @@ function applyResults(meta, objects) {
 		
 		for(idx in objects) {
 			var project = objects[idx];
+			var description = project.descriptions[0].description;
+			if(description.length > 70) {
+				description = description.substring(0,70)+"...";
+			}
 			html += "<tr>" +
 					"<td class='col1'>" +
 					"<strong class='title'><a href='"+baseUrl+"?page_id=20&id="+project.iati_identifier+"'>"+project.titles[0].title+"</a></strong>" +
-					"<p>"+project.descriptions[0].description+"</p>" +
+					"<p>"+description+"</p>" +
 					"</td>" +
 					"<td>";
 			var sep = '';
@@ -1506,6 +1929,7 @@ jcf.addModule({
 });
 
 // custom checkbox module
+/*
 jcf.addModule({
 	name:'checkbox',
 	selector:'input[type="checkbox"]',
@@ -1581,7 +2005,7 @@ jcf.addModule({
 		}
 	}
 });
-
+*/
 // custom select module
 jcf.addModule({
 	name:'select',
