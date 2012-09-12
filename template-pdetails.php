@@ -119,14 +119,14 @@ $activity = wp_get_activity($project_id);
 				<div class="box">
 						<div class="frame green">
 								<strong class="title">Total Budget</strong>
-								<span class="note">€ <?php echo format_custom_number($project->statistics->total_budget); ?></span>
+								<span class="note">€ <?php echo format_custom_number($activity->statistics->total_budget); ?></span>
 						</div>
 				</div>
 				<div class="box">
 						<div class="frame orange">
 								<strong class="title">Total Disbursements</strong>
 								<span class="note">€ <?php
-									$total = '';
+									$total = 0;
 									foreach($activity->activity_transactions AS $at) {
 										$total += floatval($at->value);
 										
@@ -143,8 +143,8 @@ $activity = wp_get_activity($project_id);
 				</div>
 				</div>
 				<!-- diagram-block -->
-				<article class="details-box diagram-block">
-					<?php echo filter_template_url(get_post_meta(get_the_ID(), 'diagram-block', true)); ?>
+				<article class="details-box diagram-block" id="piechart">
+					
 				</article>
 			</div>
 			<?php if (have_posts()) : ?>	
@@ -275,12 +275,13 @@ $activity = wp_get_activity($project_id);
 						<div class="holder">
 							<h2>Disbursements</h2>
 							<!-- chart-block -->
-							<div class="chart-block">
-									<img src="<?php echo get_bloginfo('template_url'); ?>/images/chart.jpg" width="847" height="204" alt="image">
+							<div class="chart-block" id='barchart'>
 							</div>
 							<?php
+									$disbursements = array();
 									
-									foreach($activity->activity_transactions AS $at) {
+									foreach($activity->activity_transactions AS $idx=>$at) {
+											$disbursements[$at->transaction_date] = $at->value;
 										echo "<!-- details-list -->
 											<dl class=\"details-list\">
 													<dt>Activity</dt>
@@ -294,6 +295,7 @@ $activity = wp_get_activity($project_id);
 											</dl>";
 										
 									}
+									ksort($disbursements);
 							?>
 							
 						</div>
@@ -304,4 +306,71 @@ $activity = wp_get_activity($project_id);
 			<?php endif; ?>
 		</section>
 	</section>
+	<script type="text/javascript" charset="utf-8">
+		jQuery(document).ready(function() {
+			var tmp = <?php echo json_encode($disbursements); ?>;
+			var categories = [], data = [];
+			data[0] = [];
+			data[0]['data'] = [];
+			data[0]['name'] = 'Disbursments';
+			var cnt = 0;
+			for(idx in tmp) {
+				categories[cnt] = idx;				
+				data[0]['data'][cnt] = parseFloat(tmp[idx]);
+				cnt++;
+			}
+			chart1 = new Highcharts.Chart({
+				 chart: {
+					renderTo: 'piechart',
+					type: 'pie'
+				 },
+				 title: {
+					text: ' '
+				 },
+				 plotOptions: {
+					pie: {
+						allowPointSelect: true,
+						cursor: 'pointer',
+						dataLabels: {
+							enabled: true,
+							color: '#000000',
+							connectorColor: '#000000',
+							formatter: function() {
+								return '<b>'+ this.point.name +'</b>: € '+ this.y;
+							}	
+						}
+					}
+				}, 
+				 series: [{
+					type: 'pie',
+					name: 'Amount',
+					data: [
+						['Total Budget', parseFloat(<?php echo $activity->statistics->total_budget; ?>)],
+						['Total Disbursements', parseFloat(<?php echo $total; ?>)]
+					]
+				}] 
+			  });
+			chart2 = new Highcharts.Chart({
+				 chart: {
+					renderTo: 'barchart',
+					type: 'column'
+				 },
+				 title: {
+					text: 'Disbursments'
+				 },
+				 xAxis: {
+					title: {
+					   text: 'Date'
+					},
+					categories: categories
+				 },
+				 yAxis: {
+					title: {
+					   text: 'Amount'
+					}
+				 },
+				 series: data
+			  });
+		});
+	</script>
 <?php get_footer(); ?>

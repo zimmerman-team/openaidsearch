@@ -1,4 +1,4 @@
-var sThemePath = '', sBlogName = '', _per_page = 20;
+var sThemePath = '', sBlogName = '', sBaseUrl = '', _per_page = 20;
 // init page
 jQuery(function(){
 	
@@ -9,6 +9,9 @@ jQuery(function(){
 		} // end if
 		if(jQuery(this).attr('src').indexOf('blog_name') > -1) {
 		  sBlogName = jQuery(this).attr('src').split('blog_name=')[1].split('&')[0];
+		} // end if
+		if(jQuery(this).attr('src').indexOf('baseurl') > -1) {
+		  sBaseUrl = jQuery(this).attr('src').split('baseurl=')[1].split('&')[0];
 		} // end if
 	  } // end if
 	});
@@ -973,7 +976,7 @@ function processAjaxMap() {
 
 function processAjaxFilters(offset) {
 	processAjaxMap();
-	var baseUrl = top.location.pathname.toString(), isFilter = false, selectedFltrs = [];
+	var baseUrl = sBaseUrl, isFilter = false, selectedFltrs = [];
 	jQuery('#info-table > tbody').empty();
 	
 	var html = "<tr>" +
@@ -1107,7 +1110,7 @@ function processAjaxFilters(offset) {
 
 function applyFilterHTML(selected) {
 	jQuery('#info-list').empty();
-	var baseUrl = top.location.pathname.toString();
+	var baseUrl = sBaseUrl;
 	var html = '';
 	var sep = '';
 	if(!jQuery.isEmptyObject(selected.organisations)) {
@@ -1240,7 +1243,7 @@ function applyResults(meta, objects) {
 	var limit = meta.limit,
 		offset = meta.offset,
 		total_count = meta.total_count,
-		baseUrl = top.location.pathname.toString();
+		baseUrl = sBaseUrl;
 		
 	var html = "";
 	if(total_count>0) {
@@ -1253,7 +1256,7 @@ function applyResults(meta, objects) {
 			}
 			html += "<tr>" +
 					"<td class='col1'>" +
-					"<strong class='title'><a href='"+baseUrl+"?page_id=20&id="+project.iati_identifier+"'>"+project.titles[0].title+"</a></strong>" +
+					"<strong class='title'><a href='"+baseUrl+"/?page_id=20&id="+project.iati_identifier+"'>"+project.titles[0].title+"</a></strong>" +
 					"<p>"+description+"</p>" +
 					"</td>" +
 					"<td>";

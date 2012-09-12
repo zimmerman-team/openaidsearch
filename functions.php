@@ -1064,10 +1064,11 @@ function wp_generate_results_html(&$meta, &$has_filter) {
 	$return = '';
 
 	if(!empty($objects)) {
+		$base_url = get_option('home');
 		foreach($objects AS $project) {
 			$return .= '<tr>
 						<td class="col1">
-							<strong class="title"><a href="/?page_id=20&id='.$project->iati_identifier.'">'.$project->titles[0]->title.'</a></strong>
+							<strong class="title"><a href="'.$base_url.'/?page_id=20&id='.$project->iati_identifier.'">'.$project->titles[0]->title.'</a></strong>
 							<p>'.neat_trim($project->descriptions[0]->description, 70).'</p>
 						</td>
 						<td>';
