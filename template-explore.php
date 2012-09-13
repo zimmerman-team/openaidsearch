@@ -163,8 +163,8 @@ Template Name: Explore Template
 					<!-- buttons-list -->
 					<ul class="buttons-list">
 						<li><a href="?page_id=16">Reset Filters</a></li>
-						<li><a href="#">CSV</a></li>
-						<li><a href="#">PDF</a></li>
+						<!-- temp hide this	<li><a href="#">CSV</a></li>
+						<li><a href="#">PDF</a></li> -->
 					</ul>
 					<!-- filter-form -->
 					<form action="#" class="filter-form" id="filter-form">
