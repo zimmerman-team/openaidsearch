@@ -16,7 +16,7 @@ Template Name: Explore Template
 			<?php $activities = wp_generate_results_html($meta, $has_filter); ?>
 			<!-- nav-section -->
 			<nav class="nav-section">
-				<strong class="title">All <mark><?php echo $meta->total_count; ?></mark> projects</strong>
+				<strong class="title">Found <mark><?php echo $meta->total_count; ?></mark> activities</strong>
 				<!-- info-list -->
 				<ul class="info-list" id="info-list" <?php echo ($has_filter?'':' style="display: none;"')?>>
 					<?php 
@@ -170,7 +170,7 @@ Template Name: Explore Template
 					<form action="#" class="filter-form" id="filter-form">
 						<fieldset>
 							<div class="aside-block">
-								<h2>IATI sets</h2>
+								<h2>Publishers</h2>
 								<?php echo wp_generate_filter_html('organisation'); ?>
 							</div>
 							<!-- aside-block -->
