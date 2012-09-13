@@ -8,7 +8,7 @@ define('TAG_color_1', 18);
 define('TAG_color_2', 40);
 
 define( 'SEARCH_URL', 'http://oipa.openaidsearch.org/api/v2/');
-
+define( 'EMPTY_LABEL', 'No information available');
 // Categories
 define('PROJECT', 'project');
 

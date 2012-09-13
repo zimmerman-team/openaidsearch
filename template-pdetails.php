@@ -91,6 +91,17 @@ $activity = wp_get_activity($project_id);
 				</ul>
 			</aside>
 		</div>
+		<?php 
+			$total_disbursments = 0;
+			$currency = '€';
+			foreach($activity->activity_transactions AS $at) {
+				$total_disbursments += floatval($at->value);
+				if($at->currency=='USD') $currency = '$';
+				if($at->currency=='GBP') $currency = '£';
+				
+				
+			}
+		?>
 		<!-- details-block -->
 		<section class="details-block">
 			<!-- details-box -->
@@ -110,7 +121,7 @@ $activity = wp_get_activity($project_id);
 							<span class="note"><?php
 							$sep = '';
 							foreach($activity->recipient_country AS $country) {
-								echo  $sep . '<a href="?page_id=16&countries=' . $country->iso . '">' . $country->name . '</a>';
+								echo  $sep . '<a href="'.get_option('home').'/?page_id=16&countries=' . $country->iso . '">' . $country->name . '</a>';
 								$sep = ', ';
 							}
 							?></span>
@@ -119,26 +130,22 @@ $activity = wp_get_activity($project_id);
 				<div class="box">
 						<div class="frame green">
 								<strong class="title">Total Budget</strong>
-								<span class="note">€ <?php echo format_custom_number($activity->statistics->total_budget); ?></span>
+								<span class="note"><?php echo $currency; ?> <?php echo format_custom_number($activity->statistics->total_budget); ?></span>
 						</div>
 				</div>
 				<div class="box">
 						<div class="frame orange">
 								<strong class="title">Total Disbursements</strong>
-								<span class="note">€ <?php
-									$total = 0;
-									foreach($activity->activity_transactions AS $at) {
-										$total += floatval($at->value);
-										
-									}
-									echo format_custom_number($total);
+								<span class="note"><?php echo $currency; ?> <?php
+									
+									echo format_custom_number($total_disbursments);
 							?></span>
 						</div>
 				</div>
 				<div class="box">
 						<div class="frame brown">
 								<strong class="title">Total Commitments</strong>
-								<span class="note">€ ---</span>
+								<span class="note"><?php echo $currency; ?> N/A</span>
 						</div>
 				</div>
 				</div>
@@ -180,49 +187,71 @@ $activity = wp_get_activity($project_id);
 										$sep = ', ';
 									}
 								?></dd>
+								<dt>Last updated</dt>
 								<?php if(!empty($activity->date_updated)) {?>
-									<dt>Last updated</dt>
 									<dd><?php echo $activity->date_updated; ?></dd>
+								<?php } else { ?>
+									<dd><?php echo EMPTY_LABEL; ?></dd>
 								<?php } ?>
+								<dt>Start date planned</dt>
 								<?php if(!empty($activity->start_planned)) {?>
-									<dt>Start date planned</dt>
 									<dd><?php echo $activity->start_planned; ?></dd>
+								<?php } else { ?>
+									<dd><?php echo EMPTY_LABEL; ?></dd>
 								<?php } ?>
+								<dt>Start date actual</dt>
 								<?php if(!empty($activity->start_actual)) {?>
-									<dt>Start date actual</dt>
 									<dd><?php echo $activity->start_actual; ?></dd>
+								<?php } else { ?>
+									<dd><?php echo EMPTY_LABEL; ?></dd>
 								<?php } ?>
+								<dt>End date planned</dt>
 								<?php if(!empty($activity->end_planned)) {?>
-									<dt>End date planned</dt>
 									<dd><?php echo $activity->end_planned; ?></dd>
+								<?php } else { ?>
+									<dd><?php echo EMPTY_LABEL; ?></dd>
 								<?php } ?>
+								<dt>End date actual</dt>
 								<?php if(!empty($activity->end_actual)) {?>
-									<dt>End date actual</dt>
 									<dd><?php echo $activity->end_actual; ?></dd>
+								<?php } else { ?>
+									<dd><?php echo EMPTY_LABEL; ?></dd>
 								<?php } ?>
+								<dt>Collaboration type</dt>
 								<?php if(!empty($activity->collaboration_type->name)) {?>
-									<dt>Collaboration type</dt>
 									<dd><?php echo $activity->collaboration_type->code; ?>. <?php echo $activity->collaboration_type->name; ?></dd>
+								<?php } else { ?>
+									<dd><?php echo EMPTY_LABEL; ?></dd>
 								<?php } ?>
+								<dt>Flow type</dt>
 								<?php if(!empty($activity->default_flow_type->name)) {?>
-									<dt>Flow type</dt>
 									<dd><?php echo $activity->default_flow_type->name; ?></dd>
+								<?php } else { ?>
+									<dd><?php echo EMPTY_LABEL; ?></dd>
 								<?php } ?>
+								<dt>Aid type</dt>
 								<?php if(!empty($activity->default_aid_type->name)) {?>
-									<dt>Aid type</dt>
 									<dd><?php echo $actiivity->default_aid_type->code?>. <?php echo $actiivity->default_aid_type->name?></dd>
+								<?php } else { ?>
+									<dd><?php echo EMPTY_LABEL; ?></dd>
 								<?php } ?>
+								<dt>Finance type</dt>
 								<?php if(!empty($activity->default_finance_type->name)) {?>
-									<dt>Finance type</dt>
 									<dd><?php echo $activity->default_finance_type->name; ?></dd>
+								<?php } else { ?>
+									<dd><?php echo EMPTY_LABEL; ?></dd>
 								<?php } ?>
+								<dt>Tying status</dt>
 								<?php if(!empty($activity->default_tied_status_type->name)) {?>
-									<dt>Tying status</dt>
 									<dd><?php $activity->default_tied_status_type->name?></dd>
+								<?php } else { ?>
+									<dd><?php echo EMPTY_LABEL; ?></dd>
 								<?php } ?>
+								<dt>Activity status</dt>
 								<?php if(!empty($activity->activity_status->name)) {?>
-									<dt>Activity status</dt>
 									<dd><?php $activity->activity_status->name?></dd>
+								<?php } else { ?>
+									<dd><?php echo EMPTY_LABEL; ?></dd>
 								<?php } ?>
 							</dl>
 						</div>
@@ -234,7 +263,7 @@ $activity = wp_get_activity($project_id);
 						<div class="holder">
 							<h2>Participating Organisations</h2>
 							<!-- details-list -->
-							No information available
+							<?php echo EMPTY_LABEL; ?>
 							<dl class="details-list" style="display: none;">
 								<dt>Name</dt>
 								<dd>Ministry of Foreign Affairs (DGIS)</dd>
@@ -252,7 +281,7 @@ $activity = wp_get_activity($project_id);
 						<div class="holder">
 							<h2>Commitments</h2>
 							<!-- details-list -->
-							No information available
+							<?php echo EMPTY_LABEL; ?>
 							<dl class="details-list" style="display: none;">
 								<dt>Activity</dt>
 								<dd><?php echo $activity->title->default; ?></dd>
@@ -282,14 +311,17 @@ $activity = wp_get_activity($project_id);
 									
 									foreach($activity->activity_transactions AS $idx=>$at) {
 											$disbursements[$at->transaction_date] = $at->value;
+											$cur = '€';
+											if($at->currency=='USD') $cur = '$';
+											if($at->currency=='GBP') $cur = '£';
 										echo "<!-- details-list -->
 											<dl class=\"details-list\">
 													<dt>Activity</dt>
-													<dd>{$activity->title->default}</dd>
+													<dd>{$activity->titles[0]->title}</dd>
 													<dt>Provider org</dt>
 													<dd>{$activity->reporting_organisation->org_name}</dd>
 													<dt>Value</dt>
-													<dd>€ ".format_custom_number($at->value)."</dd>
+													<dd> {$cur} ".format_custom_number($at->value)."</dd>
 													<dt>Transaction date</dt>
 													<dd>{$at->transaction_date}</dd>
 											</dl>";
@@ -336,7 +368,7 @@ $activity = wp_get_activity($project_id);
 							color: '#000000',
 							connectorColor: '#000000',
 							formatter: function() {
-								return '<b>'+ this.point.name +'</b>: € '+ this.y;
+								return '<b>'+ this.point.name +'</b>: <?php echo $currency; ?> '+ this.y;
 							}	
 						}
 					}
@@ -346,7 +378,7 @@ $activity = wp_get_activity($project_id);
 					name: 'Amount',
 					data: [
 						['Total Budget', parseFloat(<?php echo $activity->statistics->total_budget; ?>)],
-						['Total Disbursements', parseFloat(<?php echo $total; ?>)]
+						['Total Disbursements', parseFloat(<?php echo $total_disbursments; ?>)]
 					]
 				}] 
 			  });
