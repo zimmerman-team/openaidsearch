@@ -884,7 +884,7 @@ function processAjaxMap() {
 			var myOptions = {
 				zoom : 2,
 				center : myLatLng,
-				mapTypeId : google.maps.MapTypeId.ROADMAP,
+				mapTypeId : google.maps.MapTypeId.TERRAIN,
 				scrollwheel: false,
 				streetViewControl : false
 			};
