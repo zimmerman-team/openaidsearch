@@ -86,8 +86,8 @@ $activity = wp_get_activity($project_id);
 				<!-- buttons-list -->
 				<ul class="buttons-list">
 					<li><a href="#">Reset Filters</a></li>
-					<li><a href="#">CSV</a></li>
-					<li><a href="#">PDF</a></li>
+					<!-- temp hide this	<li><a href="#">CSV</a></li>
+					<li><a href="#">PDF</a></li>-->
 				</ul>
 			</aside>
 		</div>
