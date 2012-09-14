@@ -382,7 +382,7 @@ $activity = wp_get_activity($project_id);
 					type: 'pie',
 					name: 'Amount',
 					data: [
-						['Total Budget', parseFloat(<?php echo $activity->statistics->total_budget; ?>)],
+						['Total Budget', parseFloat(<?php echo (!empty($activity->statistics->total_budget)?$activity->statistics->total_budget:0); ?>)],
 						['Total Disbursements', parseFloat(<?php echo $total_disbursments; ?>)]
 					]
 				}] 
