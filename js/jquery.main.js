@@ -1265,11 +1265,12 @@ function applyResults(meta, objects) {
 				html += sep + "<a hrerf='?page_id=16&countries=" + project.recipient_country[i].iso + "'>" + project.recipient_country[i].name + "</a>";
 				sep = ', ';
 			}
-			var currency = '€';
+			var currency = '';
 			if(project.activity_transactions.length > 0) {
 				for(i in project.activity_transactions) {
-					if(project.activity_transactions[i].currency=='USD') currency = '$';
-					if(project.activity_transactions[i].currency=='GBP') currency = '£';
+					if(project.activity_transactions[i].currency=='USD') currency = '$ ';
+					if(project.activity_transactions[i].currency=='GBP') currency = '£ ';
+					if(project.activity_transactions[i].currency=='EUR') currency = '€ ';
 					break;
 				}
 			}
@@ -1281,7 +1282,7 @@ function applyResults(meta, objects) {
 			
 			html += "</td>" +
 					"<td>"+project.start_actual+"</td>" +
-					"<td>"+currency+" " + project_budget + "</td>" +
+					"<td>"+currency + project_budget + "</td>" +
 					"<td class='last'>";
 					
 			var sep = '';

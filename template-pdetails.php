@@ -93,11 +93,12 @@ $activity = wp_get_activity($project_id);
 		</div>
 		<?php 
 			$total_disbursments = 0;
-			$currency = '€';
+			$currency = '';
 			foreach($activity->activity_transactions AS $at) {
 				$total_disbursments += floatval($at->value);
-				if($at->currency=='USD') $currency = '$';
-				if($at->currency=='GBP') $currency = '£';
+				if($at->currency=='USD') $currency = '$ ';
+				if($at->currency=='GBP') $currency = '£ ';
+				if($at->currency=='EUR') $currency = '€ ';
 				
 				
 			}
@@ -130,13 +131,13 @@ $activity = wp_get_activity($project_id);
 				<div class="box">
 						<div class="frame green">
 								<strong class="title">Total Budget</strong>
-								<span class="note"><?php echo $currency; ?> <?php echo format_custom_number($activity->statistics->total_budget); ?></span>
+								<span class="note"><?php echo $currency; ?><?php echo format_custom_number($activity->statistics->total_budget); ?></span>
 						</div>
 				</div>
 				<div class="box">
 						<div class="frame orange">
 								<strong class="title">Total Disbursements</strong>
-								<span class="note"><?php echo $currency; ?> <?php
+								<span class="note"><?php echo $currency; ?><?php
 									
 									echo format_custom_number($total_disbursments);
 							?></span>
@@ -145,7 +146,7 @@ $activity = wp_get_activity($project_id);
 				<div class="box">
 						<div class="frame brown">
 								<strong class="title">Total Commitments</strong>
-								<span class="note"><?php echo $currency; ?> N/A</span>
+								<span class="note"><?php echo $currency; ?>N/A</span>
 						</div>
 				</div>
 				</div>
@@ -311,9 +312,10 @@ $activity = wp_get_activity($project_id);
 									
 									foreach($activity->activity_transactions AS $idx=>$at) {
 											$disbursements[$at->transaction_date] = $at->value;
-											$cur = '€';
-											if($at->currency=='USD') $cur = '$';
-											if($at->currency=='GBP') $cur = '£';
+											$cur = '';
+											if($at->currency=='USD') $cur = '$ ';
+											if($at->currency=='GBP') $cur = '£ ';
+											if($at->currency=='EUR') $cur = '€ ';
 										echo "<!-- details-list -->
 											<dl class=\"details-list\">
 													<dt>Activity</dt>
@@ -321,7 +323,7 @@ $activity = wp_get_activity($project_id);
 													<dt>Provider org</dt>
 													<dd>{$activity->reporting_organisation->org_name}</dd>
 													<dt>Value</dt>
-													<dd> {$cur} ".format_custom_number($at->value)."</dd>
+													<dd>{$cur}".format_custom_number($at->value)."</dd>
 													<dt>Transaction date</dt>
 													<dd>{$at->transaction_date}</dd>
 											</dl>";
@@ -329,7 +331,6 @@ $activity = wp_get_activity($project_id);
 									}
 									ksort($disbursements);
 							?>
-							
 						</div>
 					</div>
 				</div>
@@ -354,7 +355,8 @@ $activity = wp_get_activity($project_id);
 			chart1 = new Highcharts.Chart({
 				 chart: {
 					renderTo: 'piechart',
-					type: 'pie'
+					type: 'pie',
+					backgroundColor: "#EEEEEE"
 				 },
 				 title: {
 					text: ' '
@@ -368,7 +370,7 @@ $activity = wp_get_activity($project_id);
 							color: '#000000',
 							connectorColor: '#000000',
 							formatter: function() {
-								return '<b>'+ this.point.name +'</b>: <?php echo $currency; ?> '+ this.y;
+								return '<b>'+ this.point.name +'</b>: <?php echo $currency; ?>'+ this.y;
 							}	
 						}
 					}
@@ -385,7 +387,8 @@ $activity = wp_get_activity($project_id);
 			chart2 = new Highcharts.Chart({
 				 chart: {
 					renderTo: 'barchart',
-					type: 'column'
+					type: 'column',
+					backgroundColor: "#EEEEEE"
 				 },
 				 title: {
 					text: 'Disbursments'

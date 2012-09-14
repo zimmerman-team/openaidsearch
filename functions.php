@@ -302,7 +302,7 @@ $_REGION_CHOICES = array(
 	fclose($fp);
 	
 	
-$activities_url = SEARCH_URL . "organisations/?format=json&limit={$limit}";
+$activities_url = SEARCH_URL . "organisations/?format=json&statistics__total_activities__gt=0&limit={$limit}";
 $content = file_get_contents($activities_url);
 $result = json_decode($content);
 $meta = $result->meta;
@@ -318,7 +318,7 @@ if(!empty($data)) {
 $start=$limit;
 
 while($start<$count) {
-	$activities_url = SEARCH_URL . "organisations/?format=json&offset={$start}&limit={$limit}";
+	$activities_url = SEARCH_URL . "organisations/?format=json&statistics__total_activities__gt=0&offset={$start}&limit={$limit}";
 	$content = file_get_contents($activities_url);
 	$result = json_decode($content);
 	$objects = $result->objects;
@@ -1120,11 +1120,12 @@ function wp_generate_results_html(&$meta, &$has_filter) {
 	if(!empty($objects)) {
 		$base_url = get_option('home');
 		foreach($objects AS $project) {
-			$currency = '€';
+			$currency = '';
 			if(!empty($project->activity_transactions)) {
 				foreach($project->activity_transactions AS $at) {
-					if($at->currency=='USD') $currency = '$';
-					if($at->currency=='GBP') $currency = '£';
+					if($at->currency=='USD') $currency = '$ ';
+					if($at->currency=='GBP') $currency = '£ ';
+					if($at->currency=='EUR') $currency = '€ ';
 					break;
 				}
 			}
@@ -1141,7 +1142,11 @@ function wp_generate_results_html(&$meta, &$has_filter) {
 			}
 			$return .= '</td>
 						<td>'.$project->start_actual.'</td>
-						<td>'.$currency.' '.format_custom_number($project->statistics->total_budget).'</td>
+						<td>';
+			if(!empty($project->statistics->total_budget)) {
+				$return .= $currency.format_custom_number($project->statistics->total_budget);
+			}
+			$return .= '</td>
 						<td class="last">';
 			$sep = '';
 			if(empty($project->activity_sectors)) {
