@@ -481,6 +481,12 @@ input[type=submit]:hover{cursor:pointer;}
 	padding:19px 0 21px;
 	background:url(images/dotted.gif) repeat-x 0 100%;
 }
+.map-block h2 {
+	font-size: 100.01%;
+}
+.map-block h2 img {
+	margin-right: 3px;
+}
 /* nav-section */
 .nav-section{
 	padding:8px 0 7px;
