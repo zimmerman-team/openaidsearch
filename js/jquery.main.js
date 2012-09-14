@@ -24,7 +24,88 @@ jQuery(function(){
 	initPager();
 	
 	jQuery('.btn-submit').click(function(){
-		processAjaxFilters(0);
+		var baseUrl = sBaseUrl + '/?page_id=16' ;
+		var country_fltr = '', region_fltr = '', sector_fltr = '', budget_fltr = '', org_fltr = '';
+		var sep = "";
+		var urlSep = "&";
+		
+		
+		jQuery('form.check-form input:checked').each(function(){
+			var control_name = jQuery(this).attr('name');
+			var key = jQuery(this).val();
+			switch(control_name) {
+				case 'countries':
+					if(country_fltr.length==0) sep = '';
+					country_fltr += sep + key;
+					sep = "|";
+					break;
+				case 'regions':
+					if(region_fltr.length==0) sep = '';
+					region_fltr += sep + key;
+					sep = "|";
+					break;
+				case 'sectors':
+					if(sector_fltr.length==0) sep = '';
+					sector_fltr += sep + key;
+					sep = "|";
+					break;
+				case 'budgets':
+					if(budget_fltr.length==0) sep = '';
+					budget_fltr += sep + key;
+					sep = "|";
+					break;
+				case 'organisations':
+					if(org_fltr.length==0) sep = '';
+					org_fltr += sep + key;
+					sep = "|";
+					break;
+				
+				
+			}
+		});
+		
+		country_fltr = country_fltr.replace(/(All\|)|(\|All)|(All)/g, '');
+		region_fltr = region_fltr.replace(/(All\|)|(\|All)|(All)/g, '');
+		sector_fltr = sector_fltr.replace(/(All\|)|(\|All)|(All)/g, '');
+		budget_fltr = budget_fltr.replace(/(All\|)|(\|All)|(All)/g, '');
+		org_fltr = org_fltr.replace(/(All\|)|(\|All)|(All)/g, '');
+		
+		var keyword = jQuery('#search-field').val();
+		baseUrl +=  urlSep + "query=";
+		if(keyword) {
+			baseUrl += encodeURI(keyword);
+			urlSep = "&";
+		} else {
+			baseUrl += "";
+		}
+		urlSep = "&";
+		
+		if(country_fltr.length>0) {
+			baseUrl +=  urlSep + "countries=" + country_fltr;
+			urlSep = "&";
+		}
+		
+		if(region_fltr.length>0) {
+			baseUrl +=  urlSep + "regions=" + region_fltr;
+			urlSep = "&";
+		}
+		
+		if(sector_fltr.length>0) {
+			baseUrl +=  urlSep + "sectors=" + sector_fltr;
+			urlSep = "&";
+		}
+		
+		if(budget_fltr.length>0) {
+			baseUrl +=  urlSep + "budgets=" + budget_fltr;
+			urlSep = "&";
+		}
+		
+		if(org_fltr.length>0) {
+			baseUrl +=  urlSep + "organisations=" + org_fltr;
+			urlSep = "&";
+		}
+
+		window.location = baseUrl;
 		return false;
 	});
 	
