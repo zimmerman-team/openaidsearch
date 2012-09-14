@@ -358,6 +358,9 @@ $activity = wp_get_activity($project_id);
 					type: 'pie',
 					backgroundColor: "#EEEEEE"
 				 },
+				 credits: {
+					enabled: false
+				 },
 				 title: {
 					text: ' '
 				 },
@@ -392,6 +395,9 @@ $activity = wp_get_activity($project_id);
 				 },
 				 title: {
 					text: 'Disbursments'
+				 },
+				 credits: {
+					enabled: false
 				 },
 				 xAxis: {
 					title: {
