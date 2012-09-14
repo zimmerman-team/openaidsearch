@@ -39,6 +39,10 @@
 		$search_url .= "&sectors={$FILTER['sectors']}";
 	}
 	
+	if(!empty($FILTER['organisations'])) {
+		$search_url .= "&organisations={$FILTER['organisations']}";
+	}
+	
 	if(!empty($FILTER['budgets'])) {
 		$budgets = explode('|', trim($_REQUEST['budgets']));
 		//Get the lowest budget from filter and use this one, all the other are included in the range

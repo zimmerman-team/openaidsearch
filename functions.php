@@ -1098,6 +1098,14 @@ function wp_generate_results_html(&$meta, &$has_filter) {
 		$has_filter = true;
 	}
 	
+	if(!empty($_REQUEST['organisations'])) {
+		$organisations = explode('|', trim($_REQUEST['organisations']));
+		foreach($organisations AS &$c) $c = trim($c);
+		$organisations = implode('|', $organisations);
+		$search_url .= "&organisations={$organisations}";
+		$has_filter = true;
+	}
+	
 	if(!empty($_REQUEST['budgets'])) {
 		$budgets = explode('|', trim($_REQUEST['budgets']));
 		//Get the lowest budget from filter and use this one, all the other are included in the range
