@@ -177,7 +177,6 @@ Template Name: Explore Template
 							<div class="aside-block">
 								<h2>Budget</h2>
 								<?php echo wp_generate_filter_html('budget'); ?>
-								
 							</div>
 							<!-- aside-block -->
 							<div class="aside-block">

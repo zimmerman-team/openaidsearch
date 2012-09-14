@@ -104,6 +104,8 @@ input, textarea, select{
 	vertical-align:middle;
 	color:#1f76bb;
 	overflow:auto;
+	float: left;
+    margin: 2px 2px 0;
 }
 label{vertical-align:middle;}
 button, input{

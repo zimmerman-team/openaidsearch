@@ -745,7 +745,7 @@ function wp_generate_filter_html( $filter, $limit = 4 ) {
 		case 'BUDGET':
 			global $_BUDGET_CHOICES;
 			$_data = $_BUDGET_CHOICES;
-			$limit=6; //Show all
+			$limit=count($_BUDGET_CHOICES); //Show all
 			$selected = array();
 			if(!empty($_REQUEST['budgets'])) {
 				$tmp = explode('|', $_REQUEST['budgets']);
