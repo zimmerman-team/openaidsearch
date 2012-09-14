@@ -38,8 +38,8 @@ jQuery(function(){
 			characterCode = e.keyCode;
 		}
 		if(characterCode == 13) {
-			processAjaxFilters(0);
-			return false;
+			//processAjaxFilters(0);
+			return true;
 		} else {
 			return true;
 		}
