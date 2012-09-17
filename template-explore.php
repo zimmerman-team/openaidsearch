@@ -32,11 +32,15 @@ Template Name: Explore Template
 								$srch_countries = null;
 							}
 						}
+						$organisations = "";
 						if(!empty($_REQUEST['organisations'])) {
 							$tmp = explode('|', $_REQUEST['organisations']);
+							$cSep = "";
 							foreach($tmp AS $idx => &$s) {
 								echo '<li><a href="#">'.$_ORG_CHOICES[$s].'</a>';
 								unset($tmp[$idx]);
+								$organisations .= $cSep . $s;
+								$cSep = "|";
 								break;
 							}
 							echo '<div class="drop">
@@ -45,6 +49,7 @@ Template Name: Explore Template
 							
 							if(!empty($tmp)) {
 								foreach($tmp AS $idx => &$s) {
+									$organisations .= $cSep . $s;
 									echo '<li><a href="#">'.$_ORG_CHOICES[$s].'</a></li>';
 								}
 							}
@@ -52,10 +57,14 @@ Template Name: Explore Template
 							echo "</ul>
 								</div></li>";
 						}
+						$budgets = "";
+						$cSep = "";
 						if(!empty($_REQUEST['budgets'])) {
 							$tmp = explode('|', $_REQUEST['budgets']);
 							foreach($tmp AS $idx => &$s) {
 								echo '<li><a href="#">'.$_BUDGET_CHOICES[$s].'</a>';
+								$budgets .= $cSep . $s;
+								$cSep = "|";
 								unset($tmp[$idx]);
 								break;
 							}
@@ -65,6 +74,7 @@ Template Name: Explore Template
 							
 							if(!empty($tmp)) {
 								foreach($tmp AS $idx => &$s) {
+									$budgets .= $cSep . $s;
 									echo '<li><a href="#">'.$_BUDGET_CHOICES[$s].'</a></li>';
 								}
 							}
@@ -72,10 +82,14 @@ Template Name: Explore Template
 							echo "</ul>
 								</div></li>";
 						}
+						$regions = "";
+						$cSep = "";
 						if(!empty($_REQUEST['regions'])) {
 							$tmp = explode('|', $_REQUEST['regions']);
 							foreach($tmp AS $idx => &$s) {
 								echo '<li><a href="#">'.$_REGION_CHOICES[$s].'</a>';
+								$regions .= $cSep . $s;
+								$cSep = "|";
 								unset($tmp[$idx]);
 								break;
 							}
@@ -85,6 +99,7 @@ Template Name: Explore Template
 							
 							if(!empty($tmp)) {
 								foreach($tmp AS $idx => &$s) {
+									$regions .= $cSep . $s;
 									echo '<li><a href="#">'.$_REGION_CHOICES[$s].'</a></li>';
 								}
 							}
@@ -92,10 +107,14 @@ Template Name: Explore Template
 							echo "</ul>
 								</div></li>";
 						}
+						$sectors = "";
+						$cSep = "";
 						if(!empty($_REQUEST['sectors'])) {
 							$tmp = explode('|', $_REQUEST['sectors']);
 							foreach($tmp AS $idx => &$s) {
 								echo '<li><a href="#">'.$_SECTOR_CHOICES[$s].'</a>';
+								$sectors .= $cSep . $s;
+								$cSep = "|";
 								unset($tmp[$idx]);
 								break;
 							}
@@ -105,6 +124,7 @@ Template Name: Explore Template
 							
 							if(!empty($tmp)) {
 								foreach($tmp AS $idx => &$s) {
+									$sectors .= $cSep . $s;
 									echo '<li><a href="#">'.$_SECTOR_CHOICES[$s].'</a></li>';
 								}
 							}
@@ -325,6 +345,22 @@ Template Name: Explore Template
 					if(keyword) {
 						keyword = encodeURI(keyword);
 					}
+					var organisations = '<?php echo $organisations; ?>';
+					if(organisations.length>0) {
+						organisations = '&organisations=' + organisations;
+					}
+					var budgets = '<?php echo $budgets; ?>';
+					if(budgets.length>0) {
+						budgets = '&budgets=' + budgets;
+					}
+					var regions = '<?php echo $regions; ?>';
+					if(regions.length>0) {
+						regions = '&regions=' + regions;
+					}
+					var sectors = '<?php echo $sectors; ?>';
+					if(regions.length>0) {
+						sectors = '&sectors=' + sectors;
+					}
 					var contentString = "" + 
 					"<h2>" + 
 						"<img src='<?php echo bloginfo('template_url'); ?>/images/flags/" + this.iso2.toLowerCase() + ".gif' />" +
@@ -333,9 +369,9 @@ Template Name: Explore Template
 					"<dl>" +
 					"<dt>Total Activities:</dt>" +
 					"<dd>" +
-						"<a href='<?php echo get_option('home'); ?>/?page_id=16&query=" + keyword + "&countries=" + this.iso2 + "'>"+this.total_cnt+" project(s)</a>" +
+						"<a href='<?php echo get_option('home'); ?>/?page_id=16&query=" + keyword + "&countries=" + this.iso2 + organisations + budgets + regions + sectors + "'>"+this.total_cnt+" project(s)</a>" +
 					"</dd>" +
-						"<a href='<?php echo get_option('home'); ?>/?page_id=16&query=" + keyword + "&countries=" + this.iso2 + "'>show all activities for this country</a>" +
+						"<a href='<?php echo get_option('home'); ?>/?page_id=16&query=" + keyword + "&countries=" + this.iso2 + organisations + budgets + regions + sectors + "'>show all activities for this country</a>" +
 					"</dl>";
 					
 					infowindow.setContent(contentString);

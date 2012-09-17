@@ -238,12 +238,12 @@ jQuery(function(){
 			});
 		} else {
 		
-			var keyword = jQuery('#s').val();
+			var keyword = jQuery('#search-field').val();
 			if(keyword) {
 				keyword = keyword.toLowerCase();
 				var lbl = jQuery(this).parent().text();
 				if(lbl.toLowerCase()==keyword) {
-					jQuery('#s').val('');
+					jQuery('#search-field').val('');
 				}
 			}
 			selector += ':checked';
@@ -257,6 +257,15 @@ jQuery(function(){
 		processAjaxFilters(0);
 		
 	});	
+	
+	jQuery("#info-list li.remove a").click(function(){
+		var id = jQuery(this).attr('id');
+		var selector = 'form#filter-form input[name="'+id+'"]';
+		
+		jQuery(selector).attr('checked', false);
+		processAjaxFilters(0);
+		return false;
+	});
 });
 
 // init fade drop
@@ -565,6 +574,7 @@ function initPopups() {
 			} else {
 				var _faderHeight = _fader.height();
 				if(_faderHeight < _lightboxHeight) _fader.css('height',_lightboxHeight);
+				
 				if (!_scroll) {
 					if (_faderHeight - _lightboxHeight > parseInt(jQuery(window).scrollTop())) {
 						_faderHeight = parseInt(jQuery(window).scrollTop())
@@ -577,6 +587,7 @@ function initPopups() {
 					position:'absolute',
 					top: _scroll
 				});
+				
 			}
 
 			// horizontal position
@@ -1417,9 +1428,12 @@ function applyResults(meta, objects) {
 		
 		for(idx in objects) {
 			var project = objects[idx];
-			var description = project.descriptions[0].description;
-			if(description.length > 70) {
-				description = description.substring(0,70)+"...";
+			var description = '';
+			if(project.descriptions.length>0) {
+				description = project.descriptions[0].description;
+				if(description.length > 70) {
+					description = description.substring(0,70)+"...";
+				}
 			}
 			html += "<tr>" +
 					"<td class='col1'>" +
@@ -1445,6 +1459,9 @@ function applyResults(meta, objects) {
 			var project_budget = '';
 			if(project.statistics && project.statistics.total_budget) {
 				project_budget = format_number(project.statistics.total_budget);
+			} else {
+				currency = '';
+				project_budget = 'N/A';
 			}
 			
 			html += "</td>" +
@@ -1453,9 +1470,11 @@ function applyResults(meta, objects) {
 					"<td class='last'>";
 					
 			var sep = '';
-			for(i in project.activity_sectors) {
-				html += sep + "<a hrerf='?page_id=16&sectors=" + project.activity_sectors[i].code + "'>" + project.activity_sectors[i].name + "</a>";
-				sep = ', ';
+			if(project.activity_sectors.length > 0) {
+				for(i in project.activity_sectors) {
+					html += sep + "<a hrerf='?page_id=16&sectors=" + project.activity_sectors[i].code + "'>" + project.activity_sectors[i].name + "</a>";
+					sep = ', ';
+				}
 			}
 			html +=	"</td>" +
 					"</tr>";

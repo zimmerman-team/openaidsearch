@@ -1153,12 +1153,14 @@ function wp_generate_results_html(&$meta, &$has_filter) {
 						<td>';
 			if(!empty($project->statistics->total_budget)) {
 				$return .= $currency.format_custom_number($project->statistics->total_budget);
+			} else {
+				$return .= 'N/A';
 			}
 			$return .= '</td>
 						<td class="last">';
 			$sep = '';
 			if(empty($project->activity_sectors)) {
-				$return .= "No information avaialable";
+				$return .= EMPTY_LABEL;
 			} else {
 				foreach($project->activity_sectors AS $sector) {
 					$return .= $sep . '<a href="?page_id=16&sectors='.$sector->code.'">' . $sector->name . '</a>';
