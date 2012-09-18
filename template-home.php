@@ -21,7 +21,7 @@ Template Name: Home Template
 				?>
 			</div>
 		</section>
-		<!-- three-columns -->
+		<!-- three-columns temp hide
 		<section class="three-columns">
 
 			<?php	query_posts(array('showposts' => 2, 'post__in'=>get_option('sticky_posts') )); ?>
@@ -48,10 +48,12 @@ Template Name: Home Template
 				<?php endwhile; ?>
 			</div>
 			<?php endif; ?>
-			<!-- form-block -->
+			
+			-->
+			<!-- form-block  temp hide
 			<div class="form-block">
 				<h2>OIPA newsletter</h2>
-					<!-- newsletter-form -->
+					 
 					<form action="#" class="newsletter-form">
 						<fieldset>
 							<div class="row">
@@ -85,4 +87,8 @@ Template Name: Home Template
 			</div>
 		</section>
 	</section>
+	-->
+	
+	
+
 <?php get_footer(); ?>
