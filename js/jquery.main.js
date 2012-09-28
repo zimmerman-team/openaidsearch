@@ -583,6 +583,7 @@ function initPopups() {
 						_scroll = _faderHeight - _lightboxHeight;
 					}
 				}
+				if(_scroll<0) _scroll = 0;
 				_lightbox.css({
 					position:'absolute',
 					top: _scroll

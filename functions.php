@@ -874,6 +874,14 @@ function wp_generate_filter_popup($filter, $limit = 4 ) {
 				return "";
 			}
 			
+			$selected = array();
+			if(!empty($_REQUEST['countries'])) {
+				$tmp = explode('|', $_REQUEST['countries']);
+				foreach($tmp AS &$s) {
+					$selected[$s] = $_COUNTRY_ISO_MAP[$s];
+				}
+			}
+			
 			$return = preg_replace("/__filter__/", strtolower($filter), $return);
 			$return = preg_replace("/__filter_name__/", "Countries", $return);
 			
@@ -888,10 +896,11 @@ function wp_generate_filter_popup($filter, $limit = 4 ) {
 			$cnt = 0;
 			$return .= "<menu class=\"column\">";
 			foreach($_COUNTRY_ISO_MAP AS $iso=>$c) {
-				
+				$checked = "";
+				if(isset($selected[$iso])) $checked = "checked=\"checked\"";
 				$cnt++;
 				$return .= "<li>
-							<input id=\"check-country{$cnt}\" class=\"check\" type=\"checkbox\" name=\"countries\" value=\"{$iso}\" />
+							<input id=\"check-country{$cnt}\" class=\"check\" type=\"checkbox\" name=\"countries\" value=\"{$iso}\" {$checked}/>
 							<label for=\"check-country{$cnt}\">{$c}</label>
 						</li>";
 				if($cnt%$items_per_col==0) {
@@ -914,6 +923,14 @@ function wp_generate_filter_popup($filter, $limit = 4 ) {
 				return "";
 			}
 			
+			$selected = array();
+			if(!empty($_REQUEST['regions'])) {
+				$tmp = explode('|', $_REQUEST['regions']);
+				foreach($tmp AS &$s) {
+					$selected[$s] = $_REGION_CHOICES[$s];
+				}
+			}
+			
 			$return = preg_replace("/__filter__/", strtolower($filter), $return);
 			$return = preg_replace("/__filter_name__/", "Regions", $return);
 			
@@ -928,10 +945,11 @@ function wp_generate_filter_popup($filter, $limit = 4 ) {
 			$cnt = 0;
 			$return .= "<menu class=\"column\">";
 			foreach($_REGION_CHOICES AS $iso=>$c) {
-				
+				$checked = "";
+				if(isset($selected[$iso])) $checked = "checked=\"checked\"";
 				$cnt++;
 				$return .= "<li>
-							<input name=\"regions\" id=\"check-region{$cnt}\" class=\"check\" type=\"checkbox\" value=\"{$iso}\" />
+							<input name=\"regions\" id=\"check-region{$cnt}\" class=\"check\" type=\"checkbox\" value=\"{$iso}\" {$checked}/>
 							<label for=\"check-region{$cnt}\">{$c}</label>
 						</li>";
 				if($cnt%$items_per_col==0) {
@@ -954,6 +972,14 @@ function wp_generate_filter_popup($filter, $limit = 4 ) {
 				return "";
 			}
 			
+			$selected = array();
+			if(!empty($_REQUEST['sectors'])) {
+				$tmp = explode('|', $_REQUEST['sectors']);
+				foreach($tmp AS &$s) {
+					$selected[$s] = $_SECTOR_CHOICES[$s];
+				}
+			}
+			
 			$return = preg_replace("/__filter__/", strtolower($filter), $return);
 			$return = preg_replace("/__filter_name__/", "Sectors", $return);
 			
@@ -968,10 +994,11 @@ function wp_generate_filter_popup($filter, $limit = 4 ) {
 			$cnt = 0;
 			$return .= "<menu class=\"column\">";
 			foreach($_SECTOR_CHOICES AS $iso=>$c) {
-				
+				$checked = "";
+				if(isset($selected[$iso])) $checked = "checked=\"checked\"";
 				$cnt++;
 				$return .= "<li>
-							<input name=\"sectors\" id=\"check-sector{$cnt}\" class=\"check\" type=\"checkbox\" value=\"{$iso}\" />
+							<input name=\"sectors\" id=\"check-sector{$cnt}\" class=\"check\" type=\"checkbox\" value=\"{$iso}\" {$checked}/>
 							<label for=\"check-sector{$cnt}\">{$c}</label>
 						</li>";
 				if($cnt%$items_per_col==0) {
@@ -995,8 +1022,16 @@ function wp_generate_filter_popup($filter, $limit = 4 ) {
 				return "";
 			}
 			
+			$selected = array();
+			if(!empty($_REQUEST['organisations'])) {
+				$tmp = explode('|', $_REQUEST['organisations']);
+				foreach($tmp AS &$s) {
+					$selected[$s] = $_ORG_CHOICES[$s];
+				}
+			}
+			
 			$return = preg_replace("/__filter__/", strtolower($filter), $return);
-			$return = preg_replace("/__filter_name__/", "Sectors", $return);
+			$return = preg_replace("/__filter_name__/", "Publishers", $return);
 			
 			$fltr_cnt = count($_ORG_CHOICES);
 			
@@ -1009,10 +1044,11 @@ function wp_generate_filter_popup($filter, $limit = 4 ) {
 			$cnt = 0;
 			$return .= "<menu class=\"column\">";
 			foreach($_ORG_CHOICES AS $iso=>$c) {
-				
+				$checked = "";
+				if(isset($selected[$iso])) $checked = "checked=\"checked\"";
 				$cnt++;
 				$return .= "<li>
-							<input name=\"organisations\" id=\"check-org{$cnt}\" class=\"check\" type=\"checkbox\" value=\"{$iso}\" />
+							<input name=\"organisations\" id=\"check-org{$cnt}\" class=\"check\" type=\"checkbox\" value=\"{$iso}\" {$checked}/>
 							<label for=\"check-org{$cnt}\">{$c}</label>
 						</li>";
 				if($cnt%$items_per_col==0) {
