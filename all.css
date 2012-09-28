@@ -168,11 +168,21 @@ input[type=submit]:hover{cursor:pointer;}
 	padding:11px 0 15px;
 }
 /* logo */
-.logo{	background:url(images/logo.gif) no-repeat;
-	width:370px;
-	height:86px;	text-indent:-9999px;	overflow:hidden;	float:left;
-	margin:7px 0 0;}.logo a{	display:block;	height:100%;}
-/* nav-block */.nav-block{float:right;}
+.logo{
+	background:url(images/logo.gif) no-repeat;
+	width:492px;
+	height:86px;
+	text-indent:-9999px;
+	overflow:hidden;
+	float:left;
+	margin:7px 0 0;
+}
+.logo a{
+	display:block;
+	height:100%;
+}
+/* nav-block */
+.nav-block{float:right;}
 /* social-network */
 .social-network{
 	float:left;
@@ -218,11 +228,15 @@ input[type=submit]:hover{cursor:pointer;}
 /* main navigation */
 #nav{
 	background:url(images/dotted.gif) repeat-x;
-	margin:0 -9999px;	padding:1px 9999px 0;	overflow:hidden;
+	margin:0 -9999px;
+	padding:1px 9999px 0;
+	overflow:hidden;
 }
 #nav ul{
 	background:url(images/dotted.gif) repeat-x 0 100%;
-	margin:0 -9999px;	padding:0 9999px;	overflow:hidden;
+	margin:0 -9999px;
+	padding:0 9999px;
+	overflow:hidden;
 	font:1.5em/1.722em 'VarelaRoundRegular', 'Trebuchet MS', Arial, Verdana, sans-serif;
 }
 #nav ul li{
@@ -261,19 +275,34 @@ input[type=submit]:hover{cursor:pointer;}
 }
 .search-form .row{width:100%;}
 .search-form .row:after{
-	content:'';	display:block;	clear:both;
+	content:'';
+	display:block;
+	clear:both;
 }
 .search-form .text{
-	background:#eee;	width:401px;	margin:0 11px 0 0;	padding:7px 8px 4px;	border:1px solid #ccc;	float:left;
+	background:#eee;
+	width:401px;
+	margin:0 11px 0 0;
+	padding:7px 8px 4px;
+	border:1px solid #ccc;
+	float:left;
 }
 .btn-submit{
 	background:#2585c7;
-	width:70px;	height:30px;	margin:0;	padding:0;	cursor:pointer;	border:none;
+	width:70px;
+	height:30px;
+	margin:0;
+	padding:0;
+	cursor:pointer;
+	border:none;
 	float:left;
 	color:#fff;
 	text-align:center;
 	font:bold 14px/32px 'VarelaRoundRegular', 'Trebuchet MS', Arial, Verdana, sans-serif;
-	box-shadow:1px 1px 3px #dadada;	-webkit-box-shadow:1px 1px 3px #dadada;	-moz-box-shadow:1px 1px 3px #dadada;}
+	box-shadow:1px 1px 3px #dadada;
+	-webkit-box-shadow:1px 1px 3px #dadada;
+	-moz-box-shadow:1px 1px 3px #dadada;
+}
 .btn-submit:hover{
 	background:#ffff73;
 	color:#1f76bb;
@@ -371,7 +400,9 @@ input[type=submit]:hover{cursor:pointer;}
 }
 .newsletter-form .box{width:100%;}
 .newsletter-form .box:after{
-	content:'';	display:block;	clear:both;
+	content:'';
+	display:block;
+	clear:both;
 }
 .newsletter-form .text{
 	background:#eee;
@@ -392,7 +423,9 @@ input[type=submit]:hover{cursor:pointer;}
 	width:100%;
 }
 .newsletter-form .radio-block:after{
-	content:'';	display:block;	clear:both;
+	content:'';
+	display:block;
+	clear:both;
 }
 .newsletter-form .radio{
 	float:left;
@@ -494,7 +527,9 @@ input[type=submit]:hover{cursor:pointer;}
 	background:url(images/dotted.gif) repeat-x 0 100%;
 }
 .nav-section:after{
-	content:'';	display:block;	clear:both;
+	content:'';
+	display:block;
+	clear:both;
 }
 .nav-section .title{
 	float:left;
@@ -734,7 +769,9 @@ input[type=submit]:hover{cursor:pointer;}
 	line-height:30px;
 	text-align:center;
 	border:1px solid #e5e5e5;
-	border-radius:3px;	-webkit-border-radius:3px;	-moz-border-radius:3px;
+	border-radius:3px;
+	-webkit-border-radius:3px;
+	-moz-border-radius:3px;
 }
 .paging strong{
 	background:#ffff73;
@@ -773,7 +810,9 @@ input[type=submit]:hover{cursor:pointer;}
 	top:-99999px;
 	width:949px;
 	background:#fff;
-	box-shadow:0 0 2px rgba(0, 0, 0, 0.6);	-webkit-box-shadow:0 0 2px rgba(0, 0, 0, 0.6);	-moz-box-shadow:0 0 2px rgba(0, 0, 0, 0.6);
+	box-shadow:0 0 2px rgba(0, 0, 0, 0.6);
+	-webkit-box-shadow:0 0 2px rgba(0, 0, 0, 0.6);
+	-moz-box-shadow:0 0 2px rgba(0, 0, 0, 0.6);
 }
 .lightbox .heading{
 	overflow:hidden;
@@ -835,7 +874,12 @@ input[type=submit]:hover{cursor:pointer;}
 	font:1.5em/1.222em 'VarelaRoundRegular', "Trebuchet MS", Arial, Verdana, sans-serif;
 }
 .profile-form .text{
-	background:#eee;	width:422px;	margin:0;	padding:12px 8px 10px;	border:1px solid #cdcdcd;	float:left;
+	background:#eee;
+	width:422px;
+	margin:0;
+	padding:12px 8px 10px;
+	border:1px solid #cdcdcd;
+	float:left;
 }
 .profile-form .middle{width:401px;}
 .profile-form .small{width:248px;}
@@ -851,8 +895,13 @@ input[type=submit]:hover{cursor:pointer;}
 	margin:12px 20px 0 0;
 }
 .profile-form textarea{
-	background:#eee;	width:892px !important;
-	height:212px;	margin:0;	padding:11px 8px;	border:1px solid #dadada;	float:left;
+	background:#eee;
+	width:892px !important;
+	height:212px;
+	margin:0;
+	padding:11px 8px;
+	border:1px solid #dadada;
+	float:left;
 }
 .profile-form .btn-submit{
 	float:right;
@@ -1057,9 +1106,13 @@ input[type=submit]:hover{cursor:pointer;}
 	display:inline-block;
 	text-decoration:none;
 	background:#00468c;
-	border-radius:13px;	-webkit-border-radius:13px;	-moz-border-radius:13px;
+	border-radius:13px;
+	-webkit-border-radius:13px;
+	-moz-border-radius:13px;
 	text-transform:uppercase;
-	box-shadow:3px 3px 5px rgba(0, 0, 0, 0.29);	-webkit-box-shadow:3px 3px 5px rgba(0, 0, 0, 0.29);	-moz-box-shadow:3px 3px 5px rgba(0, 0, 0, 0.29);
+	box-shadow:3px 3px 5px rgba(0, 0, 0, 0.29);
+	-webkit-box-shadow:3px 3px 5px rgba(0, 0, 0, 0.29);
+	-moz-box-shadow:3px 3px 5px rgba(0, 0, 0, 0.29);
 	white-space:nowrap;
 }
 .button:hover{text-decoration:underline;}
