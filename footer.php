@@ -2,7 +2,7 @@
 			</div>
 		</div>
 		<!-- footer -->
-		<div id="footer">
+		<div id="footer" style="display: none;">
 			<div class="footer-holder">
 				<div class="footer-frame">
 					<div class="footer-block">
