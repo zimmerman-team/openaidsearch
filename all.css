@@ -557,7 +557,7 @@ input[type=submit]:hover{cursor:pointer;}
 	color:#2585c6;
 	float:left;
 	border:1px solid #e5e5e5;
-	padding:0 10px;
+	padding:0 10px 0 7px;
 	height:25px;
 	white-space:nowrap;
 }
