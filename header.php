@@ -3,7 +3,7 @@
 <head>
 	<meta http-equiv="Content-Type" content="<?php bloginfo('html_type'); ?>; charset=<?php bloginfo('charset'); ?>" />
 	<meta name="google-site-verification" content="SPZ4EEqcBMjX3AUSIMtMTTZpUOF6JcMUmPMfNmK1Al8" />
-	a<title><?php wp_title(' | ', true, 'right'); ?><?php bloginfo('name'); ?></title>
+	<title><?php wp_title(' | ', true, 'right'); ?><?php bloginfo('name'); ?></title>
 	<link media="all" rel="stylesheet" type="text/css" href="<?php bloginfo('template_url'); ?>/all.css" />
 	<link media="all" rel="stylesheet" type="text/css" href="<?php bloginfo('template_url'); ?>/style.css" />
 	<?php wp_enqueue_script("jquery"); ?>

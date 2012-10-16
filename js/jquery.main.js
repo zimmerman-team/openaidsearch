@@ -24,10 +24,10 @@ jQuery(function(){
 	initPager();
 	
 	jQuery('.btn-submit').click(function(){
-		var baseUrl = sBaseUrl + '/?page_id=16' ;
+		var baseUrl = sBaseUrl + '/explore/' ;
 		var country_fltr = '', region_fltr = '', sector_fltr = '', budget_fltr = '', org_fltr = '';
 		var sep = "";
-		var urlSep = "&";
+		var urlSep = "?";
 		
 		
 		jQuery('form.check-form input:checked').each(function(){
@@ -110,10 +110,10 @@ jQuery(function(){
 	});
 	
 	jQuery('a.btn-close').click(function(){
-		var baseUrl = sBaseUrl + '/?page_id=16' ;
+		var baseUrl = sBaseUrl + '/explore/' ;
 		var country_fltr = '', region_fltr = '', sector_fltr = '', budget_fltr = '', org_fltr = '';
 		var sep = "";
-		var urlSep = "&";
+		var urlSep = "?";
 		
 		
 		jQuery('form.check-form input:checked').each(function(){
@@ -1134,9 +1134,9 @@ function processAjaxMap() {
 					"<dl>" +
 					"<dt>Total Activities:</dt>" +
 					"<dd>" +
-						"<a href='"+sBaseUrl+"/?page_id=16&query=" + keyword + "&countries=" + this.iso2 + "'>"+this.total_cnt+" project(s)</a>" +
+						"<a href='"+sBaseUrl+"/explore/?query=" + keyword + "&countries=" + this.iso2 + "'>"+this.total_cnt+" project(s)</a>" +
 					"</dd>" +
-						"<a href='"+sBaseUrl+"/?page_id=16&query=" + keyword + "&countries=" + this.iso2 + "'>show all activities for this country</a>" +
+						"<a href='"+sBaseUrl+"/explore/?query=" + keyword + "&countries=" + this.iso2 + "'>show all activities for this country</a>" +
 					"</dl>";
 					
 					infowindow.setContent(contentString);
@@ -1438,13 +1438,13 @@ function applyResults(meta, objects) {
 			}
 			html += "<tr>" +
 					"<td class='col1'>" +
-					"<strong class='title'><a href='"+baseUrl+"/?page_id=20&id="+project.iati_identifier+"'>"+project.titles[0].title+"</a></strong>" +
+					"<strong class='title'><a href='"+baseUrl+"/explore-detail/?id="+project.iati_identifier+"'>"+project.titles[0].title+"</a></strong>" +
 					"<p>"+description+"</p>" +
 					"</td>" +
 					"<td>";
 			var sep = '';
 			for(i in project.recipient_country) {
-				html += sep + "<a hrerf='?page_id=16&countries=" + project.recipient_country[i].iso + "'>" + project.recipient_country[i].name + "</a>";
+				html += sep + "<a hrerf='"+baseUrl+"/explore/?countries=" + project.recipient_country[i].iso + "'>" + project.recipient_country[i].name + "</a>";
 				sep = ', ';
 			}
 			var currency = '';
@@ -1473,7 +1473,7 @@ function applyResults(meta, objects) {
 			var sep = '';
 			if(project.activity_sectors.length > 0) {
 				for(i in project.activity_sectors) {
-					html += sep + "<a hrerf='?page_id=16&sectors=" + project.activity_sectors[i].code + "'>" + project.activity_sectors[i].name + "</a>";
+					html += sep + "<a hrerf='"+baseUrl+"/explore/?sectors=" + project.activity_sectors[i].code + "'>" + project.activity_sectors[i].name + "</a>";
 					sep = ', ';
 				}
 			}

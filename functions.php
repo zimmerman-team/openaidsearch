@@ -1175,13 +1175,13 @@ function wp_generate_results_html(&$meta, &$has_filter) {
 			}
 			$return .= '<tr>
 						<td class="col1">
-							<strong class="title"><a href="'.$base_url.'/?page_id=20&id='.$project->iati_identifier.'">'.$project->titles[0]->title.'</a></strong>
+							<strong class="title"><a href="'.$base_url.'/explore-detail/?id='.$project->iati_identifier.'">'.$project->titles[0]->title.'</a></strong>
 							<p>'.neat_trim($project->descriptions[0]->description, 70).'</p>
 						</td>
 						<td>';
 			$sep = '';
 			foreach($project->recipient_country AS $country) {
-				$return .= $sep . '<a href="?page_id=16&countries='.$country->iso.'">' . $country->name . '</a>';
+				$return .= $sep . '<a href="'.$base_url.'/explore/?countries='.$country->iso.'">' . $country->name . '</a>';
 				$sep = ', ';
 			}
 			$return .= '</td>
@@ -1199,7 +1199,7 @@ function wp_generate_results_html(&$meta, &$has_filter) {
 				$return .= EMPTY_LABEL;
 			} else {
 				foreach($project->activity_sectors AS $sector) {
-					$return .= $sep . '<a href="?page_id=16&sectors='.$sector->code.'">' . $sector->name . '</a>';
+					$return .= $sep . '<a href="'.$base_url.'/explore/?sectors='.$sector->code.'">' . $sector->name . '</a>';
 					$sep = ', ';
 				}
 			}
