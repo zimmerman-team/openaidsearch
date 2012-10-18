@@ -29,19 +29,19 @@
                                                     <!-- nav-block -->
 							<nav class="nav-block">								
 								<!-- social-network -->
-<!--								<ul class="social-network">
+								<ul class="social-network">
 									<li class="facebook"><span class='st_facebook' st_title='<?php the_title(); ?>' st_url='<?php the_permalink(); ?>'></span></li>
 									<li class="twitter"><span class='st_twitter' st_title='<?php the_title(); ?>' st_url='<?php the_permalink(); ?>'></span></li>
 									<li class="linkedin"><a href="http://www.linkedin.com/shareArticle?mini=true&url=<?php the_permalink(); ?>&title=<?php the_title(); ?>">linkedin</a></li>
 									<li class="email"><span class='st_email' st_title='<?php the_title(); ?>' st_url='<?php the_permalink(); ?>'></span></li>
-								</ul>-->
-<ul class="social-network">
+								</ul>
+<!--<ul class="social-network">
 									<li class="facebook"><span class="st_facebook" st_title="Explore" st_url="http://beta.openaidsearch.org/" st_processed="yes"><span style="text-decoration: none; color: rgb(0, 0, 0); display: inline-block; cursor: pointer; padding-left: 0px; padding-right: 0px; width: 16px; " class="stButton"><span class="chicklets facebook">&nbsp;</span><img src="http://w.sharethis.com/images/check-small.png" style="position: absolute; top: -6px; right: -7px; width: 13px; height: 13px; max-width: 13px; max-height: 13px; display: none; "></span></span></li>
 									<li class="twitter"><span class="st_twitter" st_title="Explore" st_url="http://beta.openaidsearch.org/" st_processed="yes"><span style="text-decoration: none; color: rgb(0, 0, 0); display: inline-block; cursor: pointer; padding-left: 0px; padding-right: 0px; width: 16px; " class="stButton"><span class="chicklets twitter">&nbsp;</span><img src="http://w.sharethis.com/images/check-small.png" style="position: absolute; top: -6px; right: -7px; width: 13px; height: 13px; max-width: 13px; max-height: 13px; display: none; "></span></span></li>
 									<li class="linkedin"><a href="http://www.linkedin.com/shareArticle?mini=true&amp;url=http://beta.openaidsearch.org/&amp;title=Explore">linkedin</a></li>
 									<li class="email"><span class="st_email" st_title="Explore" st_url="http://beta.openaidsearch.org/" st_processed="yes"><span style="text-decoration: none; color: rgb(0, 0, 0); display: inline-block; cursor: pointer; padding-left: 0px; padding-right: 0px; width: 16px; " class="stButton"><span class="chicklets email">&nbsp;</span><img src="http://w.sharethis.com/images/check-small.png" style="position: absolute; top: -6px; right: -7px; width: 13px; height: 13px; max-width: 13px; max-height: 13px; display: none; "></span></span></li>
                                                                         
-								</ul>
+								</ul>-->
                                                                 <a href="contact-us" style="float: left; padding-left: 10px; font-family: Arial;font-size: 12px;text-decoration: none;">contact us</a>
 								<!-- add navigation -->
 								<?php
