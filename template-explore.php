@@ -258,95 +258,89 @@
     </div>
 </section>
 <script type="text/javascript" charset="utf-8">
-    
-
     function initPageMap(country) {
-        var baseUrl = top.location.pathname.toString(),
-        url = "<?php bloginfo('template_directory') ?>/map_search.php?countries=<?php echo $countries ?><?php echo $search_url; ?>";
-        var countries = '<?php echo $countries ?>';
 
-        jQuery.ajax({
-            url: url,
-            type: "GET",
-            dataType: "json",
-            success: function(data){
-                initMap(data);
-            },
-            error: function(msg){
-                console.log(url);
-                console.log('AJAX error!' + msg);
-                return false;
-            }
-        });
+		var geocoder = new google.maps.Geocoder();
+		initMap(); 
 
+		function initMap() {
+			var myLatLng = new google.maps.LatLng(9.795678,26.367188);
+			var myOptions = {
+				zoom : 2,
+				center : myLatLng,
+				mapTypeId : google.maps.MapTypeId.TERRAIN,
+				scrollwheel: false,
+				streetViewControl : false
+			};
 
-        function initMap(result) {
-            var myLatLng = new google.maps.LatLng(9.795678,26.367188);
-            var myOptions = {
-                zoom : 2,
-                center : myLatLng,
-                mapTypeId : google.maps.MapTypeId.TERRAIN,
-                scrollwheel: false,
-                streetViewControl : false
-            };
+			var map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+			google.maps.event.addListener(map, "click", getAddress);
+			
+			/*
+			geocoder.geocode( { 'address': 'TR'}, function(results, status) {
+			  if (status == google.maps.GeocoderStatus.OK) {
+				map.setCenter(results[0].geometry.location);
+				map.fitBounds(results[0].geometry.viewport);
+			  }
+			});*/
+			
+			function getAddress(overlay) {
+				var latlng = overlay.latLng;
+				if (latlng != null ) {
+					geocoder.geocode({'latLng': latlng}, function(results, status) {
+						if (status == google.maps.GeocoderStatus.OK) {
+							if (results[1]) {
+								var indice=0;
+								for (var j=0; j<results.length; j++) {
+									if (results[j].types[0]=='locality') {
+										indice=j;
+										break;
+									}
+								}
+								j = indice;
+								for (var i=0; i<results[j].address_components.length; i++) {
+									if (results[j].address_components[i].types[0] == "country") {
+										//this is the object you are looking for
+										country = results[j].address_components[i];
+									}
+								}
 
-            var map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
-            if (!google.maps.Polygon.prototype.getBounds) {
+								//country data
+								showCountry(country.short_name, latlng);
 
-                google.maps.Polygon.prototype.getBounds = function(latLng) {
+							} else {
+								//alert("No results found");
+							}
 
-                    var bounds = new google.maps.LatLngBounds();
-                    var paths = this.getPaths();
-                    var path;
-							
-                    for (var p = 0; p < paths.getLength(); p++) {
-                        path = paths.getAt(p);
-                        for (var i = 0; i < path.getLength(); i++) {
-                            bounds.extend(path.getAt(i));
-                        }
-                    }
+						} else {
+							//alert("Geocoder failed due to: " + status);
+						}
+					});
+				}
+			}
 
-                    return bounds;
-                }
-
-            }
-            var data = result['objects'];
-            for(idx in data) {
-                var lats = [];
-                var lat_size =  data[idx]['path'].length;
-
-                for (var t=0; t <lat_size; t++) {
-                    var inner = [];
-                    for (var i=0; i <data[idx]['path'][t].length; i++) {
-                        var lat = data[idx]['path'][t][i].split(',');
-                        inner.push(new google.maps.LatLng(lat[0], lat[1]));
-                    }
-                    lats.push(inner);
-                }
-                var polygon = new google.maps.Polygon({
-                    paths: lats,
-                    strokeColor: "#FFFFFF",
-                    strokeOpacity: 0.8,
-                    strokeWeight: 2,
-                    fillColor: "#F96B15",
-                    fillOpacity: 0.65,
-                    country: data[idx]['name'],
-                    total_cnt: data[idx]['total_cnt'],
-                    total_activities_url: "?countries="+idx,
-                    iso2 : idx
-                });
-                if (countries) map.setCenter(polygon.getBounds().getCenter());
-                polygon.setMap(map);
-                google.maps.event.addListener(polygon, 'click', showInfo);
-                infowindow = new google.maps.InfoWindow();
-                google.maps.event.addListener(infowindow, 'closeclick', resetColor);
-            }
+			// Displays the address information
+			function showCountry(ccode, latlng) {
+				url = "<?php bloginfo('template_directory') ?>/map_search.php?countries=" + ccode;
+				jQuery.ajax({
+					url: url,
+					type: "GET",
+					dataType: "json",
+					success: function(data){
+						if(data['objects'][ccode]) {
+							infowindow = new google.maps.InfoWindow();
+							showInfo(data['objects'][ccode], latlng);
+						}
+					},
+					error: function(msg){
+						//alert('AJAX error!' + msg);
+						return false;
+					}
+				});
+			}
 				
-            function showInfo(event){
-                if (typeof currentPolygon != 'undefined') {
-                    currentPolygon.setOptions({fillColor: "#F96B15"});
-                }
-                this.setOptions({fillColor: "#2D6A98"});
+				
+			function showInfo(country, latlng) {
                 var keyword = jQuery('#search-field').val();
 					
                 if(keyword) {
@@ -370,25 +364,21 @@
                 }
                 var contentString = "" + 
                     "<h2>" + 
-                    "<img src='<?php echo bloginfo('template_url'); ?>/images/flags/" + this.iso2.toLowerCase() + ".gif' />" +
-                    this.country + 
+						"<img src='<?php echo bloginfo('template_url'); ?>/images/flags/" + country.iso2.toLowerCase() + ".gif' />" +
+						country.name + 
                     "</h2>" +
                     "<dl>" +
                     "<dt>Total Activities:</dt>" +
                     "<dd>" +
-                    "<a href='<?php echo get_option('home'); ?>/?page_id=16&query=" + keyword + "&countries=" + this.iso2 + organisations + budgets + regions + sectors + "'>"+this.total_cnt+" project(s)</a>" +
+						"<a href='<?php echo get_option('home'); ?>/explore/?query=" + keyword + "&countries=" + country.iso2 + organisations + budgets + regions + sectors + "'>"+country.total_cnt+" project(s)</a>" +
                     "</dd>" +
-                    "<a href='<?php echo get_option('home'); ?>/?page_id=16&query=" + keyword + "&countries=" + this.iso2 + organisations + budgets + regions + sectors + "'>show all activities for this country</a>" +
+						"<a href='<?php echo get_option('home'); ?>/explore/?query=" + keyword + "&countries=" + country.iso2 + organisations + budgets + regions + sectors + "'>show all activities for this country</a>" +
                     "</dl>";
 					
+					map.setCenter(latlng);
                 infowindow.setContent(contentString);
-                infowindow.setPosition(event.latLng);
+					infowindow.setPosition(latlng);
                 infowindow.open(map);
-                currentPolygon = this;
-            }
-				
-            function resetColor(){
-                currentPolygon.setOptions({fillColor: "#F96B15"});
             }
         }
     }

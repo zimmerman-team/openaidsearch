@@ -2,7 +2,7 @@
 
 	include_once( 'constants.php' );
 	if(file_exists('countries.php') && empty($_COUNTRY_ISO_MAP)) include_once( 'countries.php' );
-	include_once( 'map_regions.php' );
+	//include_once( 'map_regions.php' );
 	
 	$FILTER = getFilter($_GET);
 	$limit=20;
@@ -11,7 +11,9 @@
 		$countries = explode('|', $FILTER['countries']);
 		$array['objects'] = array();
 		foreach($countries AS $c) {
-			$array['objects'][$c] = array('path' => $_GM_POLYGONS[$c], 'name' => $_COUNTRY_ISO_MAP[$c], 'total_cnt' => $_COUNTRY_ACTIVITY_COUNT[$c]);
+			if(!isset($_COUNTRY_ACTIVITY_COUNT[$c])) continue;
+			//$array['objects'][$c] = array('path' => $_GM_POLYGONS[$c], 'name' => $_COUNTRY_ISO_MAP[$c], 'total_cnt' => $_COUNTRY_ACTIVITY_COUNT[$c]);
+			$array['objects'][$c] = array('name' => $_COUNTRY_ISO_MAP[$c], 'total_cnt' => $_COUNTRY_ACTIVITY_COUNT[$c], 'iso2' => $c);
 		}
 		
 	} else {
