@@ -410,7 +410,7 @@ function wp_tag_cloud_custom( $args = '' ) {
 
 	if ( empty( $tags ) || is_wp_error( $tags ) )
 		return;
-
+        
 	foreach ( $tags as $key => $tag ) {
 		if ( 'edit' == $args['link'] )
 			$link = get_edit_tag_link( $tag->term_id, $tag->taxonomy );
@@ -422,6 +422,7 @@ function wp_tag_cloud_custom( $args = '' ) {
 		$tags[ $key ]->link = $link;
 		$tags[ $key ]->id = $tag->term_id;
 	}
+        
 
 	$return = wp_generate_tag_cloud_custom( $tags, $args ); // Here's where those top tags get sorted according to $args
 

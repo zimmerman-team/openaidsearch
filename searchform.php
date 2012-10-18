@@ -5,7 +5,7 @@
 		<div class="holder">
 			<label for="search-field">Explore global development aid projects</label>
 			<div class="row">
-				<input class="text" name="query" id="search-field" type="text" value="<?php echo trim( $_REQUEST['query'] ); ?>" />
+				<input autofocus="autofocus" class="text" name="query" id="search-field" type="text" value="<?php echo trim( $_REQUEST['query'] ); ?>" />
 				<input class="btn-submit" type="button" value="search" />
 			</div>
 		</div>

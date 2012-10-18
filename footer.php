@@ -1,8 +1,6 @@
-				</div>
-			</div>
-		</div>
+			
 		<!-- footer -->
-		<div id="footer" style="display: none;">
+		<div id="footer" style="display: block;">
 			<div class="footer-holder">
 				<div class="footer-frame">
 					<div class="footer-block">
@@ -17,16 +15,16 @@
 							<!-- footer navigation -->
 							<nav class="footer-nav">
 								<?php
-								wp_nav_menu( array('container' => false,
-									 'theme_location' => 'footer_menu',
-									 'menu_class' => 'navigation',
-									 ) );
+//								wp_nav_menu( array('container' => false,
+//									 'theme_location' => 'footer_menu',
+//									 'menu_class' => 'navigation',
+//									 ) );
 								?>
 							</nav>
 							<?php if(is_active_sidebar('copyright')): ?>
 								<!-- copyright -->
 								<span class="copyright"><?php dynamic_sidebar('copyright'); ?></span>
-							<?php endif; ?>
+							<?php endif; ?> 
 						</div>
 					</div>
 				</div>
