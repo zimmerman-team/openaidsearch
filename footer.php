@@ -4,11 +4,18 @@
 			<div class="footer-holder">
 				<div class="footer-frame">
 					<div class="footer-block">
+                                            <ul class="partner-list">
+        <li><a href="http://akvo.org/"><img src="<?php bloginfo('template_url');?>/images/logo_akvo.png" width="169" height="66" alt="akvo.org See it happen"></a></li>
+        <li><a href="http://www.zimmermanzimmerman.nl/"><img src="<?php bloginfo('template_url');?>/images/logo_zz.png" width="218" height="63" alt="image"></a></li>
+        <li><a href="http://iatiregistry.org/"><img src="<?php bloginfo('template_url');?>/images/logo_iati.png" width="225" height="72" alt="IATI International Aid Transparency Initiative"></a></li>
+        
+</ul>
+					
 						<?php if(is_active_sidebar('partners')): ?>
 						<!-- partner-block -->
 						<div class="partner-block">
-							<?php dynamic_sidebar('partners'); ?>
-						</div>
+							<?php //dynamic_sidebar('partners'); ?>
+                                                    	</div>
 						<?php endif; ?>
 						<!-- footer-row -->
 						<div class="footer-row">

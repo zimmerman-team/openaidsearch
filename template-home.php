@@ -9,31 +9,22 @@ Template Name: Home Template
 	<section id="main">
 		<?php get_search_form(); ?>
             <section class="block">
-							<div class="holder">
-								<!-- tagcloud -->
-								<ul class="tagcloud">
-									<li><a style="font-size:48px; line-height:52px; color:#fff;" href="?page_id=20&id=NL-1-PPR-14399">Rabobank in Zambia</a></li>
-									<li><a style="font-size:24px; line-height:27px; color:#9cf;" href="#">Ipsum adipiscing</a></li>
-									<li><a style="font-size:39px; line-height:42px; color:#00468c;" href="#">Cras</a></li>
-									<li><a style="font-size:14px; line-height:17px; color:#fff;" href="#">Cursus dolor fermentum</a></li>
-									<li><a style="font-size:38px; line-height:42px; color:#00468c;" href="#">Publish your iati data?</a></li>
-									<li><a style="font-size:52px; line-height:54px; color:#9cf;" href="#">Tellus etiam ornare</a></li>
-									<li><a style="font-size:19px; line-height:23px; color:#fff;" href="#">Fusce ornare bibendum dolor</a></li>
-									<li><a style="font-size:28px; line-height:32px; color:#00468c;" href="#">Vestibulum id ligula porta felis euismod semper.</a></li>
-									<li><a style="font-size:35px; line-height:38px; color:#9cf;" href="#">Fermentum pellentesque vulputate</a></li>
-									<li><a style="font-size:50px; line-height:52px; color:#00468c;" href="#">Risus euismod</a></li>
-									<li><a style="font-size:35px; line-height:38px; color:#00468c;" href="#">Vehicula risus tristique magna</a></li>
-									<li><a style="font-size:24px; line-height:27px; color:#fff;" href="#">Lorem parturient egestas magna</a></li>
-									<li><a style="font-size:14px; line-height:17px; color:#fff;" href="#">Cursus dolor fermentum</a></li>
-									<li><a style="font-size:24px; line-height:27px; color:#fff;" href="#">Elit egestas ultricies</a></li>
-									<li><a style="font-size:28px; line-height:32px; color:#00468c;" href="#">Amet justo fermentum</a></li>
-									<li><a style="font-size:19px; line-height:23px; color:#9cf;" href="#">Malesuada parturient</a></li>
-									<li><a style="font-size:21px; line-height:24px; color:#00468c;" href="#">Adipiscing</a></li>
-									<li><a style="font-size:14px; line-height:17px; color:#9cf;" href="#">Maecenas sed diam eget risus varius blandit sit amet non magna.</a></li>
-									<li><a style="font-size:17px; line-height:20px; color:#00468c;" href="#">Quam amet malesuada</a></li>
-								</ul>
-							</div>
-						</section>
+                <div class="holder">
+                    <!-- tagcloud -->
+                    <ul class="tagcloud">
+                        <li><a style="padding-left: 200px;font-size:16px; line-height:18px; color:#fff;" target="_blank" href="http://www.akvo.org/blog/?p=4329">INTERNET CENSORSHIP IS WRONG</a></li>
+                        <li><a style="padding-right: 100px;font-size:22px; line-height:26px; color:#2E2C75;" target="_blank" href="http://www.akvo.org/blog/?p=4822">THE AKVO PLATFORM – WHY, WHAT AND HOW</a></li>
+                        <li><a style="font-size:26px; line-height:30px; color:#8c6800;" target="_blank" href="http://www.akvo.org/blog/?p=7332">THE NETHERLANDS ENTERS THE AID TRANSPARENCY TOP 3</a></li>
+                        <li><a style="font-size:24px; line-height:26px; color:#fff;" target="_blank" href="http://www.akvo.org/blog/?p=6753">THE ROAD TO OPEN UN-HABITAT</a></li>
+                        <li><a style="padding-left: 120px;font-size:38px; line-height:42px; color:#00468c;" href="http://beta.openaidsearch.org/explore">FIND 61258 GLOBAL DEVELOPMENT PROJECTS</a></li>
+                        <li><a style="padding-left: 80px;padding-right: 120px;font-size:26px; line-height:30px; color:#fff;" target="_blank" href="http://www.akvo.org/blog/?p=7304">INTERNATIONAL DEVELOPMENT GOALS – THE NEXT STEP WILL BE OPEN</a></li>
+                        <li><a style="padding-left: 100px;font-size:19px; line-height:23px; color:#2E2C75;"target="_blank" href="http://www.akvo.org/blog/?p=6020">OPEN DATA FOR DEVELOPMENT CAMP NAIROBI</a></li>
+                        <li><a style="padding-right: 20px;font-size:30px; line-height:32px; color:#8c6800;" target="_blank" href="http://www.akvo.org/blog/?p=4921">EXAMPLES OF AKVO RSR IN ACTION</a></li>
+                        <li><a style="font-size:18px; padding-left:200px; line-height:22px; color:#fff;" href="#">OPEN DATA FOR DEVELOPMENT CAMP 2012</a></li>
+                        
+                    </ul>
+                </div>
+            </section>
 		<!-- block -->
 <!--		<section class="block">
 			<div class="holder">

@@ -53,6 +53,7 @@
 							</nav>
 							<!-- logo -->
 							<h1 class="logo"><a href="<?php bloginfo('url'); ?>"><?php bloginfo('name'); ?></a></h1>
+                                                        
 							
 						</div>
 						<!-- main navigation -->

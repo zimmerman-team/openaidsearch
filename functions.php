@@ -854,7 +854,7 @@ function wp_generate_filter_popup($filter, $limit = 4 ) {
 	$return = '	<div class="lightbox" id="__filter___popup">
 					<header class="heading">
 						<strong class="title">__filter_name__</strong>
-						<a href="#" class="btn-close">save filters</a>
+						<a href="#" class="btn-close">Save Filters</a>
 					</header>
 					<!-- check-form -->
 					<form action="#" class="check-form">
