@@ -99,6 +99,18 @@ a{
 	text-decoration:underline;
 	color:#444;
 }
+#map_canvas a{
+    
+    color: #2E2C75;
+}
+#map_canvas{
+    font-family: Arial;
+    font-size: 12px;
+}
+.note a{
+	text-decoration:underline;
+	color:#fff;
+}
 a:hover{text-decoration:none;}
 input, textarea, select{
 	font:16px/17px 'VarelaRoundRegular', 'Trebuchet MS', Arial, Verdana, sans-serif;
@@ -717,6 +729,8 @@ background-image: url("http://w.sharethis.com/images/email_16.png");
 	padding:0 2px;
 	width: 153px;
 	overflow:hidden;
+        font-family: Arial;
+        font-size: 12px;
 }
 .filter-form label:hover{background:#ffff73;}
 .filter-form .more{
@@ -895,12 +909,14 @@ background-image: url("http://w.sharethis.com/images/email_16.png");
 	float:right;
 	border:1px solid #e5e5e5;
 	background:#eee;
-	height:25px;
+/*	height:25px;*/
 	color:#2E2C75;
 	text-decoration:none;
 	width:67px;
 	text-align:center;
-	font:1em/2em Arial, Verdana, Helvetica, sans-serif;
+	font-family: Arial;
+        font-size: 10px;
+        padding: 5px 5px 5px 5px;
 }
 .lightbox .btn-close:hover{background:#ffff73;}
 .lightbox .holder{
@@ -988,11 +1004,14 @@ background-image: url("http://w.sharethis.com/images/email_16.png");
 	overflow:hidden;
 	padding:0 0 5px;
 	list-style:none outside;
+        font-size: 12px;
+        font-family: Arial;
 }
 .check-form label{
-	float:left;
+	float: none;
 	margin:2px 0 0;
 	padding:0 2px;
+        height: auto;
 }
 .check-form label:hover{background:#ffff73;}
 /* details-block */
@@ -1111,7 +1130,7 @@ background-image: url("http://w.sharethis.com/images/email_16.png");
 }
 .details-block h2{
 	margin:0 0 16px;
-	color:#288bcb;
+	color:#2E2C75;
 	font-family: Arial; font-size: 12px; font-weight: bold;
 }
 .details-section .details-box .holder{padding:14px 10px 0 23px;}
@@ -1121,7 +1140,7 @@ background-image: url("http://w.sharethis.com/images/email_16.png");
 	padding:0 0 20px;
 	width:100%;
 	overflow:hidden;
-	font-family: Arial; font-size: 12px; font-weight: bold;
+	font-family: Arial; font-size: 12px; font-weight: normal;
 }
 .details-list dt{
 	float:left;
