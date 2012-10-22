@@ -575,7 +575,7 @@ background-image: url("http://w.sharethis.com/images/email_16.png");
 }
 .nav-section .title mark{
 	background:none;
-	color:#2483c5;
+	color:#2E2C75;
         font-family: Arial;
         font-size: 14px;
         font-weight: bold;
@@ -593,7 +593,7 @@ background-image: url("http://w.sharethis.com/images/email_16.png");
 	list-style:none outside;
 }
 .info-list > li > a{
-	color:#2585c6;
+	color:#2E2C75;
 	float:left;
 	border:1px solid #e5e5e5;
 	padding:0 10px 0 7px;
@@ -627,7 +627,7 @@ background-image: url("http://w.sharethis.com/images/email_16.png");
 	border-width:0 1px 1px;
 }
 .info-list ul a{
-	color:#2585c6;
+	color:#2E2C75;
 	text-decoration:none;
 }
 .info-list ul .remove a{
@@ -666,7 +666,7 @@ background-image: url("http://w.sharethis.com/images/email_16.png");
 	margin:0 6px 0 0;
 }
 .buttons-list a{
-	color:#2585c5;
+	color:#2E2C75;
 	float:left;
 	border:1px solid #e5e5e5;
 	background:#eee;
@@ -721,7 +721,7 @@ background-image: url("http://w.sharethis.com/images/email_16.png");
 .filter-form label:hover{background:#ffff73;}
 .filter-form .more{
 	text-decoration:none;
-	color:#2585c5;
+	color:#2E2C75;
 	margin:0 0 0 19px;
 }
 .filter-form .more:hover{text-decoration:underline;}
@@ -758,7 +758,7 @@ background-image: url("http://w.sharethis.com/images/email_16.png");
 }
 .info-table .title{
 	display:block;
-	color:#2585c5;
+	color:#2E2C75;
 	font-weight:bold;
         font-size: 12px;
         font-family: 'Arial';
@@ -772,13 +772,13 @@ background-image: url("http://w.sharethis.com/images/email_16.png");
 }
 .info-table td{
 	text-decoration:none;
-	color:#2585c5;
+	color:#2E2C75;
         font-size: 12px;
         font-family: 'Arial';
 }
 .info-table td a{
 	text-decoration:none;
-	color:#2585c5;
+	color:#2E2C75;
         font-size: 12px;
         font-family: 'Arial';
 }
@@ -896,7 +896,7 @@ background-image: url("http://w.sharethis.com/images/email_16.png");
 	border:1px solid #e5e5e5;
 	background:#eee;
 	height:25px;
-	color:#2585c6;
+	color:#2E2C75;
 	text-decoration:none;
 	width:67px;
 	text-align:center;
@@ -913,7 +913,7 @@ background-image: url("http://w.sharethis.com/images/email_16.png");
 }
 .lightbox .headline h1{
 	margin:0 0 1px;
-	color:#2585c5;
+	color:#2E2C75;
 	font:2em/1.125em 'VarelaRoundRegular', "Trebuchet MS", Arial, Verdana, sans-serif;
 }
 .lightbox .headline p{margin:0;}
@@ -935,7 +935,7 @@ background-image: url("http://w.sharethis.com/images/email_16.png");
 .profile-form .box{overflow:hidden;}
 .profile-form label{
 	display:block;
-	color:#2585c5;
+	color:#2E2C75;
 	margin:0 0 3px;
 	font:1.5em/1.222em 'VarelaRoundRegular', "Trebuchet MS", Arial, Verdana, sans-serif;
 }
