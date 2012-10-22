@@ -375,9 +375,8 @@
 						"<a href='<?php echo get_option('home'); ?>/explore/?query=" + keyword + "&countries=" + country.iso2 + organisations + budgets + regions + sectors + "'>show all activities for this country</a>" +
                     "</dl>";
 					
-					map.setCenter(latlng);
                 infowindow.setContent(contentString);
-					infowindow.setPosition(latlng);
+				infowindow.setPosition(latlng);
                 infowindow.open(map);
             }
         }
