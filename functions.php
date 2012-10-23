@@ -1168,7 +1168,7 @@ function wp_generate_results_html(&$meta, &$has_filter) {
 			$currency = '';
 			if(!empty($project->activity_transactions)) {
 				foreach($project->activity_transactions AS $at) {
-					if($at->currency=='USD') $currency = '$ ';
+					if($at->currency=='USD') $currency = 'US$ ';
 					if($at->currency=='GBP') $currency = '£ ';
 					if($at->currency=='EUR') $currency = '€ ';
 					break;

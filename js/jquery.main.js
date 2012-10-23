@@ -1620,7 +1620,7 @@ function applyResults(meta, objects) {
 			var currency = '';
 			if(project.activity_transactions.length > 0) {
 				for(i in project.activity_transactions) {
-					if(project.activity_transactions[i].currency=='USD') currency = '$ ';
+					if(project.activity_transactions[i].currency=='USD') currency = 'US$ ';
 					if(project.activity_transactions[i].currency=='GBP') currency = '£ ';
 					if(project.activity_transactions[i].currency=='EUR') currency = '€ ';
 					break;

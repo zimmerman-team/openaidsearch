@@ -96,7 +96,7 @@ $activity = wp_get_activity($project_id);
 			$currency = '';
 			foreach($activity->activity_transactions AS $at) {
 				$total_disbursments += floatval($at->value);
-				if($at->currency=='USD') $currency = '$ ';
+				if($at->currency=='USD') $currency = 'US$ ';
 				if($at->currency=='GBP') $currency = '£ ';
 				if($at->currency=='EUR') $currency = '€ ';
 				
@@ -313,7 +313,7 @@ $activity = wp_get_activity($project_id);
 									foreach($activity->activity_transactions AS $idx=>$at) {
 											$disbursements[$at->transaction_date] = $at->value;
 											$cur = '';
-											if($at->currency=='USD') $cur = '$ ';
+											if($at->currency=='USD') $cur = 'US$ ';
 											if($at->currency=='GBP') $cur = '£ ';
 											if($at->currency=='EUR') $cur = '€ ';
 										echo "<!-- details-list -->
