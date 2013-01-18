@@ -166,7 +166,6 @@ input[type=submit]:hover{cursor:pointer;}
 .w1{display:table-row;}
 .w2{
 	width:100%;
-	overflow:hidden;
 	position:relative;
 }
 .w3{
@@ -266,15 +265,18 @@ background-image: url("http://w.sharethis.com/images/email_16.png");
 .add-nav .active a{background:#ffff73;}
 /* main navigation */
 #nav{
-	background:url(images/dotted.gif) repeat-x;
-	margin:0 -9999px;
-	padding:1px 9999px 0;
 	overflow:hidden;
+	border-top: 1px dotted #CCCCCC;
+	border-bottom: 1px dotted #CCCCCC;
+	left:0;
+	position:absolute;
+	z-index: 999;
+	width: 100%;
 }
 #nav ul{
-	background:url(images/dotted.gif) repeat-x 0 100%;
-	margin:0 -9999px;
-	padding:0 9999px;
+	display: block;
+	width: 940px;
+	margin: 0 auto;
 	overflow:hidden;
 	font:1.5em/1.722em 'VarelaRoundRegular', 'Trebuchet MS', Arial, Verdana, sans-serif;
 }
