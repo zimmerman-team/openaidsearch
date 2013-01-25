@@ -7,13 +7,27 @@ define('TAG_number', 10);
 define('TAG_color_1', 18);
 define('TAG_color_2', 40);
 
-define( 'SEARCH_URL', 'http://oipa.openaidsearch.org/api/v2/');
-define( 'EMPTY_LABEL', 'No information available');
+if(get_option('oipa_search_url') == '') {
+	define( 'SEARCH_URL', 'http://oipa.openaidsearch.org/api/v2/');
+} else {
+	$search_url = get_option('oipa_search_url');
+	if(substr($search_url,strlen($search_url)-1)!='/') {
+		$search_url .= '/';
+	}
+	define( 'SEARCH_URL', $search_url);
+}
+
+if (get_option('oipa_empty_label') == '') {
+	define( 'EMPTY_LABEL', 'No information available');
+} else {
+	define( 'EMPTY_LABEL', get_option('oipa_empty_label'));
+}
 // Categories
 define('PROJECT', 'project');
 
-$_DEFAULT_ORGANISATION_ID = '';
-$_PER_PAGE = 20;
+$_DEFAULT_ORGANISATION_ID = get_option('oipa_default_organisation');
+$_PER_PAGE = get_option('oipa_per_page');
+if(empty($_PER_PAGE)) $_PER_PAGE = 20;
 $_RELAOD_FILTERS_TIMEOUT = 24*60*60; //24 hours
 
 static $_REGION_CHOICES = array();
