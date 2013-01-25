@@ -1176,7 +1176,7 @@ function processAjaxMap() {
 			var data = result['objects'];
 			for(idx in data) {
 				var lats = [];
-				var lat_size =  data[idx]['path'].length;
+				var lat_size = data[idx]['path'].length;
 
 				for (var t=0; t <lat_size; t++) {
 					var inner = [];
@@ -1239,7 +1239,7 @@ function processAjaxMap() {
 }
 
 function processAjaxFilters(offset) {
-	processAjaxMap();
+	//processAjaxMap();
 	var baseUrl = sBaseUrl, isFilter = false, selectedFltrs = [];
 	jQuery('#info-table > tbody').empty();
 	
@@ -1381,6 +1381,7 @@ function applyFilterHTML(selected) {
 		html += '<li>';
 		for(key in selected.organisations) {
 			var lbl = selected.organisations[key];
+			lbl = lbl.replace(/\s+\([0-9]+\)/ig, "");
 			if(lbl.length > 10) {
 				lbl = lbl.substring(0,10)+"...";
 			}
@@ -1395,6 +1396,7 @@ function applyFilterHTML(selected) {
 						
 		for(key in selected.organisations) {
 			var lbl = selected.organisations[key];
+			lbl = lbl.replace(/\s+\([0-9]+\)/ig, "");
 			if(lbl.length > 10) {
 				lbl = lbl.substring(0,10)+"...";
 			}
@@ -1407,6 +1409,7 @@ function applyFilterHTML(selected) {
 		html += '<li>';
 		for(key in selected.countries) {
 			var lbl = selected.countries[key];
+			lbl = lbl.replace(/\s+\([0-9]+\)/ig, "");
 			html += '<a href="#">'+lbl+'</a>';
 			sep = ', ';
 			delete selected.countries[key];
@@ -1418,6 +1421,7 @@ function applyFilterHTML(selected) {
 						
 		for(key in selected.countries) {
 			var lbl = selected.countries[key];
+			lbl = lbl.replace(/\s+\([0-9]+\)/ig, "");
 			html += '<li><a href="#">'+lbl+'</a></li>';
 		}			
 		html += '</ul></div></li>';
@@ -1652,6 +1656,35 @@ function applyResults(meta, objects) {
 			
 		}
 		
+		
+		//fix the paging 
+		var per_page = jQuery('select[name="perpage"]').val();
+		var total_pages = Math.ceil(total_count/limit);
+		var cur_page = offset/limit + 1;
+		var paging_block = "<li class='link-prev'><a href='javascript:#'>previous</a></li>";
+		var page_limit = 3;
+		var show_dots = true;
+		for(i=1; i<=total_pages; i++) {
+			
+			if (i == 1 || i == total_pages || (i >= cur_page - page_limit && i <= cur_page + page_limit) ) {
+				show_dots = true;
+				  // If it's the current page, leave out the link
+				  // otherwise set a URL field also
+				if(cur_page==i) {
+					paging_block += "<li><strong id='cur_page'>"+i+"</strong></li>";
+				} else {
+					paging_block += "<li><a href='javascript:#'>"+i+"</a></li>";
+				}
+			} else if (show_dots == true) {
+			
+				show_dots = false;
+				paging_block += "<li class='pag_dots'>...</li>";
+			}
+		}
+		
+		paging_block += "<li class='link-next'><a href='javascript:#'>next</a></li>";
+		jQuery('#paging').empty().html(paging_block);
+		/*
 		//fix the paging 
 		var per_page = jQuery('select[name="perpage"]').val();
 		var total_pages = Math.ceil(total_count/limit);
@@ -1674,7 +1707,7 @@ function applyResults(meta, objects) {
 		}
 		if((fromPage+loop_limit)<(total_pages-3)) {
 			if(total_pages>page_limit) {
-				paging_block += "<li>...</li>";
+				paging_block += "<li class='pag_dots'>...</li>";
 			}
 			
 			for(i=total_pages-2; i<=total_pages; i++) {
@@ -1700,7 +1733,7 @@ function applyResults(meta, objects) {
 		
 		paging_block += "<li class='link-next'><a href='javascript:#'>next</a></li>";
 		jQuery('#paging').empty().html(paging_block);
-		
+		*/
 		jQuery('#paging > li > a').click(function(){
 			var className = jQuery(this).parent().attr('class');
 			var cur_page = parseInt(jQuery('#cur_page').html());

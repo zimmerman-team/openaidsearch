@@ -859,8 +859,9 @@ background-image: url("http://w.sharethis.com/images/email_16.png");
 	font-weight:normal;
 }
 .paging a:hover{background:#ffff73;}
-.paging .link-prev{margin:9px 30px 0 0;font-family: Arial;}
-.paging .link-next{margin:9px 0 0 20px;}
+.paging .link-prev{margin:0 30px 0 0;font-family: Arial;}
+.paging .link-next{margin:0 0 0 20px;font-family: Arial;}
+.paging .pag_dots{margin:7px 10px 0 0;font-family: Arial;}
 .paging .link-prev a,
 .paging .link-next a{
 	font-family: Arial;

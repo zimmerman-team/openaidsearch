@@ -309,9 +309,11 @@ $meta = $result->meta;
 $count = $meta->total_count;
 $objects = $result->objects;
 $data = objectToArray($objects);
+$organisation_activities = array();
 if(!empty($data)) {
 	foreach($data AS $a) {
 		$organisations[$a['ref']] = trim($a['org_name']);
+		$organisation_activities[$a['ref']] = $a['statistics']['total_activities'];
 	}
 }
 
@@ -326,6 +328,7 @@ while($start<$count) {
 	if(!empty($data)) {
 		foreach($data AS $a) {
 			$organisations[$a['ref']] = trim($a['org_name']);
+			$organisation_activities[$a['ref']] = $a['statistics']['total_activities'];
 		}
 	}
 	
@@ -345,6 +348,19 @@ $_ORG_CHOICES = array(
 	}
 	
 	$to_write .= ');
+	
+$_ORG_ACTIVITY_COUNT = array(
+';
+	if(!empty($organisation_activities)) {
+		
+		foreach($organisation_activities AS $key=>$value) {
+			$value = intval($value);
+			$to_write .= "'{$key}' => '{$value}',\n";
+		}
+		
+	}
+
+$to_write .= ');
 ?>';
 	$fp = fopen(TEMPLATEPATH . '/organisations.php', 'w+');
 	fwrite($fp, $to_write);
@@ -551,7 +567,7 @@ function wp_generate_filter_html( $filter, $limit = 4 ) {
 	$generate_popup = false;
 	switch($filter) {
 		case 'COUNTRY':
-			global $_COUNTRY_ISO_MAP;
+			global $_COUNTRY_ISO_MAP, $_COUNTRY_ACTIVITY_COUNT;
 			if(empty($_COUNTRY_ISO_MAP) && !file_exists(TEMPLATEPATH . '/countries.php')) {
 				wp_generate_constants();
 				include_once( TEMPLATEPATH . '/countries.php' );
@@ -603,13 +619,17 @@ function wp_generate_filter_html( $filter, $limit = 4 ) {
 			}
 			$cnt = 0;
 			$checked = "";
+			$show_counter = true;
+			if(empty($_COUNTRY_ACTIVITY_COUNT)) $show_counter = false;
 			if(!empty($selected)) {
 				foreach($selected AS $iso=>$c) {
+					$a_count = "";
+					if($show_counter) $a_count = " ({$_COUNTRY_ACTIVITY_COUNT[$iso]})";
 					$checked = "checked=\"checked\"";
 					$cnt++;
 					$return .= "<li>
 								<input name=\"countries\" id=\"check-country{$cnt}\" class=\"check\" type=\"checkbox\" value=\"{$iso}\" {$checked}/>
-								<label for=\"check-country{$cnt}\">{$c}</label>
+								<label for=\"check-country{$cnt}\">{$c}{$a_count}</label>
 								</li>";
 				}
 				
@@ -619,9 +639,11 @@ function wp_generate_filter_html( $filter, $limit = 4 ) {
 				$checked = "";
 				if(isset($selected[$iso])) $checked = "checked=\"checked\"";
 				$cnt++;
+				$a_count = "";
+				if($show_counter) $a_count = " ({$_COUNTRY_ACTIVITY_COUNT[$iso]})";
 				$return .= "<li>
 							<input name=\"countries\" id=\"check-country{$cnt}\" class=\"check\" type=\"checkbox\" value=\"{$iso}\" {$checked} />
-							<label for=\"check-country{$cnt}\">{$c}</label>
+							<label for=\"check-country{$cnt}\">{$c}{$a_count}</label>
 							</li>";
 				if($cnt>$limit) break;
 			}
@@ -780,7 +802,7 @@ function wp_generate_filter_html( $filter, $limit = 4 ) {
 			
 			break;
 		case 'ORGANISATION':
-			global $_ORG_CHOICES;
+			global $_ORG_CHOICES, $_ORG_ACTIVITY_COUNT;
 			if(empty($_ORG_CHOICES) && !file_exists(TEMPLATEPATH . '/organisations.php')) {
 				wp_generate_constants();
 				include_once( TEMPLATEPATH . '/organisations.php' );
@@ -805,13 +827,17 @@ function wp_generate_filter_html( $filter, $limit = 4 ) {
 			
 			$cnt = 1;
 			$checked = "";
+			$show_counter = true;
+			if(empty($_ORG_ACTIVITY_COUNT)) $show_counter = false;
 			if(!empty($selected)) {
 				foreach($selected AS $iso=>$c) {
+					$o_count = "";
+					if($show_counter) $o_count = " ({$_ORG_ACTIVITY_COUNT[$iso]})";
 					$checked = "checked=\"checked\"";
 					$cnt++;
 					$return .= "<li>
 								<input name=\"organisations\" id=\"check-org{$cnt}\" class=\"check\" type=\"checkbox\" value=\"{$iso}\" {$checked} />
-								<label for=\"check-org{$cnt}\">{$c}</label>
+								<label for=\"check-org{$cnt}\">{$c}{$o_count}</label>
 								</li>";
 				}
 				
@@ -821,9 +847,11 @@ function wp_generate_filter_html( $filter, $limit = 4 ) {
 				$checked = "";
 				if(isset($selected[$iso])) $checked = "checked=\"checked\"";
 				$cnt++;
+				$o_count = "";
+				if($show_counter) $o_count = " ({$_ORG_ACTIVITY_COUNT[$iso]})";
 				$return .= "<li>
 							<input name=\"organisations\" id=\"check-org{$cnt}\" class=\"check\" type=\"checkbox\" value=\"{$iso}\" {$checked} />
-							<label for=\"check-org{$cnt}\">{$c}</label>
+							<label for=\"check-org{$cnt}\">{$c}{$o_count}</label>
 							</li>";
 				if($cnt>$limit) break;
 			}
@@ -1225,7 +1253,7 @@ function wp_generate_paging($meta) {
 	$cur_page = $offset/$limit + 1;
 	
 	$paging_block = '<ul class="paging" id="paging"><li class="link-prev"><a href="javascript:void(0);">previous</a></li>';
-	$page_limit = 6;
+	$page_limit = 3;
 	$show_dots = true;
 		
 
@@ -1240,7 +1268,7 @@ function wp_generate_paging($meta) {
 		
 		} else if ($show_dots == true) {
 			$show_dots = false;
-			$paging_block .= "<li>...</li>";
+			$paging_block .= "<li class='pag_dots'>...</li>";
 		}
 	}
 		
