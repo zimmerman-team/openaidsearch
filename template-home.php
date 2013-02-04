@@ -11,16 +11,16 @@ Template Name: Home Template
             <section class="block">
                 <div class="holder">
                     <!-- tagcloud -->
-                    <ul class="tagcloud">
-                        <li><a style="padding-left: 200px;font-size:16px; line-height:18px; color:#fff;" target="_blank" href="http://www.akvo.org/blog/?p=4329">INTERNET CENSORSHIP IS WRONG</a></li>
-                        <li><a style="padding-right: 100px;font-size:22px; line-height:26px; color:#2E2C75;" target="_blank" href="http://www.akvo.org/blog/?p=4822">THE AKVO PLATFORM – WHY, WHAT AND HOW</a></li>
-                        <li><a style="font-size:26px; line-height:30px; color:#8c6800;" target="_blank" href="http://www.akvo.org/blog/?p=7332">THE NETHERLANDS ENTERS THE AID TRANSPARENCY TOP 3</a></li>
-                        <li><a style="font-size:24px; line-height:26px; color:#fff;" target="_blank" href="http://www.akvo.org/blog/?p=6753">THE ROAD TO OPEN UN-HABITAT</a></li>
-                        <li><a style="padding-left: 120px;font-size:38px; line-height:42px; color:#00468c;" href="http://beta.openaidsearch.org/explore">FIND 61258 GLOBAL DEVELOPMENT PROJECTS</a></li>
-                        <li><a style="padding-left: 80px;padding-right: 120px;font-size:26px; line-height:30px; color:#fff;" target="_blank" href="http://www.akvo.org/blog/?p=7304">INTERNATIONAL DEVELOPMENT GOALS – THE NEXT STEP WILL BE OPEN</a></li>
-                        <li><a style="padding-left: 100px;font-size:19px; line-height:23px; color:#2E2C75;"target="_blank" href="http://www.akvo.org/blog/?p=6020">OPEN DATA FOR DEVELOPMENT CAMP NAIROBI</a></li>
-                        <li><a style="padding-right: 20px;font-size:30px; line-height:32px; color:#8c6800;" target="_blank" href="http://www.akvo.org/blog/?p=4921">EXAMPLES OF AKVO RSR IN ACTION</a></li>
-                        <li><a style="font-size:18px; padding-left:200px; line-height:22px; color:#fff;" href="#">OPEN DATA FOR DEVELOPMENT CAMP 2012</a></li>
+                       <ul class="tagcloud">
+                        <li><a style="padding-left: 200px;font-size:16px; line-height:18px; color:#fff;" target="_blank" href="http://beta.openaidsearch.org/explore/?query&sectors=22040%7CCA">ICT projects around the world</a></li>
+                        <li><a style="padding-right: 100px;font-size:22px; line-height:26px; color:#2E2C75;" target="_blank" href="http://beta.openaidsearch.org/explore/?sectors=15153">Media and free flow of information</a></li>
+                        <li><a style="font-size:26px; line-height:30px; color:#8c6800;" target="_blank" href="http://beta.openaidsearch.org/explore/?query&regions=589&sectors=15220">Civilian peace-building & conflict prevention in the Middle East</a></li>
+                        <li><a style="font-size:24px; line-height:26px; color:#fff;" target="_blank" href="http://beta.openaidsearch.org/explore/?query&organisations=41120%7C41114%7C41AAA">The UNDP, UN-Habitat and UNOPS clusters</a></li>
+                        <li><a style="padding-left: 120px;font-size:38px; line-height:42px; color:#00468c;" href="http://beta.openaidsearch.org/explore">FIND +75.000 GLOBAL DEVELOPMENT PROJECTS</a></li>
+                        <li><a style="padding-left: 80px;padding-right: 120px;font-size:26px; line-height:30px; color:#fff;" target="_blank" href="http://beta.openaidsearch.org/explore/?query&countries=AF">Aid project in Afghanistan</a></li>
+                        <li><a style="padding-left: 100px;font-size:19px; line-height:23px; color:#2E2C75;"target="_blank" href="http://beta.openaidsearch.org/explore/?query&sectors=23068">Wind power projects around the world</a></li>
+                        <li><a style="padding-right: 20px;font-size:30px; line-height:32px; color:#8c6800;" target="_blank" href="http://beta.openaidsearch.org/explore-detail/?id=44000-P120234">US$50M for cultural heritage conservation in China</a></li>
+                        <li><a style="font-size:18px; padding-left:200px; line-height:22px; color:#fff;" href="http://beta.openaidsearch.org/explore/?query&sectors=11130">Training of teachers</a></li>
                         
                     </ul>
                 </div>
