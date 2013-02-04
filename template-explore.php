@@ -8,10 +8,13 @@
 <section id="main">
     <?php get_search_form(); ?>
     <?php if (get_post_meta(get_the_ID(), 'Header Image', true)) : ?>
-        <!-- map -->
+
+          <!-- hide the map 
         			<div class="map-block">			
                                     <div id="map_canvas" style="width: 940px; height: 300px;"></div>
                                 </div>
+
+                                 end hide map -->
     <?php endif; ?>
 
     <?php $activities = wp_generate_results_html($meta, $has_filter); ?>
