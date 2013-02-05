@@ -1,5 +1,5 @@
 <?php
-
+	require_once('../../../wp-load.php');
 	include_once( 'constants.php' );
 	if(file_exists('countries.php') && empty($_COUNTRY_ISO_MAP)) include_once( 'countries.php' );
 	//include_once( 'map_regions.php' );

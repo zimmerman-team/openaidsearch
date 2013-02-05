@@ -892,7 +892,7 @@ function wp_generate_filter_popup($filter, $limit = 4 ) {
 	
 	switch($filter) {
 		case 'COUNTRY':
-			global $_COUNTRY_ISO_MAP;
+			global $_COUNTRY_ISO_MAP, $_COUNTRY_ACTIVITY_COUNT;
 			if(empty($_COUNTRY_ISO_MAP) && !file_exists(TEMPLATEPATH . '/countries.php')) {
 				wp_generate_constants();
 				include_once( TEMPLATEPATH . '/countries.php' );
@@ -924,13 +924,17 @@ function wp_generate_filter_popup($filter, $limit = 4 ) {
 			$items_per_col = $fltr_cnt/3;
 			$cnt = 0;
 			$return .= "<menu class=\"column\">";
+			$show_counter = true;
+			if(empty($_COUNTRY_ACTIVITY_COUNT)) $show_counter = false;
 			foreach($_COUNTRY_ISO_MAP AS $iso=>$c) {
 				$checked = "";
 				if(isset($selected[$iso])) $checked = "checked=\"checked\"";
+				$a_count = "";
+				if($show_counter) $a_count = " ({$_COUNTRY_ACTIVITY_COUNT[$iso]})";
 				$cnt++;
 				$return .= "<li>
 							<input id=\"check-country{$cnt}\" class=\"check\" type=\"checkbox\" name=\"countries\" value=\"{$iso}\" {$checked}/>
-							<label for=\"check-country{$cnt}\">{$c}</label>
+							<label for=\"check-country{$cnt}\">{$c}{$a_count}</label>
 						</li>";
 				if($cnt%$items_per_col==0) {
 					$return .= "</menu><menu class=\"column\">";
@@ -1040,7 +1044,7 @@ function wp_generate_filter_popup($filter, $limit = 4 ) {
 			break;
 		
 		case 'ORGANISATION':
-			global $_ORG_CHOICES;
+			global $_ORG_CHOICES, $_ORG_ACTIVITY_COUNT;
 			if(empty($_ORG_CHOICES) && !file_exists(TEMPLATEPATH . '/organisations.php')) {
 				wp_generate_constants();
 				include_once( TEMPLATEPATH . '/organisations.php' );
@@ -1071,14 +1075,18 @@ function wp_generate_filter_popup($filter, $limit = 4 ) {
 			
 			$items_per_col = $fltr_cnt/3;
 			$cnt = 0;
+			$show_counter = true;
+			if(empty($_ORG_ACTIVITY_COUNT)) $show_counter = false;
 			$return .= "<menu class=\"column\">";
 			foreach($_ORG_CHOICES AS $iso=>$c) {
 				$checked = "";
 				if(isset($selected[$iso])) $checked = "checked=\"checked\"";
+				$o_count = "";
+				if($show_counter) $o_count = " ({$_ORG_ACTIVITY_COUNT[$iso]})";
 				$cnt++;
 				$return .= "<li>
 							<input name=\"organisations\" id=\"check-org{$cnt}\" class=\"check\" type=\"checkbox\" value=\"{$iso}\" {$checked}/>
-							<label for=\"check-org{$cnt}\">{$c}</label>
+							<label for=\"check-org{$cnt}\">{$c}{$o_count}</label>
 						</li>";
 				if($cnt%$items_per_col==0) {
 					$return .= "</menu><menu class=\"column\">";
